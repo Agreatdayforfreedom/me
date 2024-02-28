@@ -8,5 +8,6 @@ export type Line = {
 export type Shiny = {
   x: number;
   y: number;
+  type: "row" | "col";
   points: { x: number; y: number }[];
 };

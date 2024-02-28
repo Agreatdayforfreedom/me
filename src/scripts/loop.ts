@@ -20,35 +20,16 @@ function drawCanvas() {
     ctx.globalCompositeOperation = "lighter";
     for (var x = 0; x <= canvas.width; x += padding) {
       lines.push({ x, y: 0, start: x, end: canvas.height });
-      shiny.push({ x, y: 0, points: [] });
+      shiny.push({ x, y: 0, type: "col", points: [{ x, y: 0 }] });
     }
-    // for (var y = 0; y <= canvas.height; y += padding) {
-    //   let x = 0;
-    //   ctx.beginPath();
-    //   ctx.moveTo(x, y);
-    //   ctx.lineTo(canvas.width, y);
-    //   ctx.closePath();
-    //   ctx.lineWidth = 0.1;
-    //   ctx.strokeStyle = "white";
-    //   ctx.stroke();
-    //   shiny(0, y);
-    // }
+
+    for (var y = 0; y <= canvas.height; y += padding) {
+      shiny.push({ x: 0, y, type: "row", points: [{ x: 0, y }] });
+    }
   }
 }
 drawCanvas();
 
-// function shiny(x: number, y: number) {
-//   if (ctx) {
-//     ctx.beginPath();
-//     ctx.arc(x, y, 2, 0, (Math.PI / 2) * 180);
-//     ctx.fillStyle = "white";
-//     ctx.shadowColor = "white";
-//     ctx.shadowBlur = 10;
-//     // ctx.shadowBlur = 50;
-//     ctx.fill();
-//     ctx.closePath();
-//   }
-// }
 var increase = (((90 / 180) * Math.PI) / 9) * 0.1;
 let counter = 0;
 counter += increase;
@@ -65,23 +46,20 @@ function loop() {
   ctx.globalCompositeOperation = "lighter";
 
   let dy = 2;
-  // let speed = 5;
-  // shiny.forEach((s) => {
 
-  // ctx.clearRect(0, 0, canvas?.width, canvas?.height);
-
-  // let s = shiny[2];
   for (const s of shiny) {
-    // let y = Math.sin(s.x * 2 * Math.PI * (1 / 60));
-    if (c++ > 1) return;
     if (ctx) {
-      // s.y = dy;
-      s.x = 180 - Math.sin(counter) * 120;
-      s.y += dy;
+      if (s.type == "row") {
+        s.y = s.points[0].y - Math.sin(counter);
+        s.x += dy;
+      } else {
+        s.x = s.points[0].x - Math.sin(counter);
+        s.y += dy;
+      }
       counter += increase;
       Math.sin(s.x * 2 * Math.PI * (1 / 60));
       ctx.beginPath();
-      ctx.fillRect(s.x - 1.1, s.y, 2, 2);
+      ctx.fillRect(s.x, s.y, 1, 1);
       ctx.shadowColor = "hsl(100,100%,50%)";
       ctx.shadowBlur = 1;
       ctx.fillStyle = "hsl(hue,100%,50%)".replace("hue", time.toString());
