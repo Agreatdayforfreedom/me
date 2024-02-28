@@ -1,10 +1,10 @@
-import type { Line, Shiny } from "../types";
+import type { Line } from "../types";
+import { die, spawn } from "./line";
 
 let canvas = document.querySelector("canvas");
 let ctx = canvas?.getContext("2d");
 
 let lines: Line[] = [];
-let shiny: Shiny[] = [];
 function drawCanvas() {
   if (!canvas) return;
 
@@ -18,24 +18,47 @@ function drawCanvas() {
     ctx.fillStyle = "rgba(0, 0, 0, 1)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.globalCompositeOperation = "lighter";
+
+    //horizontal position
     for (var x = 0; x <= canvas.width; x += padding) {
-      lines.push({ x, y: 0, start: x, end: canvas.height });
-      shiny.push({ x, y: 0, type: "col", points: [{ x, y: 0 }] });
+      lines.push(
+        spawn({
+          id: crypto.randomUUID(),
+          x,
+          y: 0,
+          type: "col",
+          initialX: x,
+          initialY: 0,
+          arise: x,
+          die: canvas.height,
+        })
+      );
     }
 
+    //vertical position
     for (var y = 0; y <= canvas.height; y += padding) {
-      shiny.push({ x: 0, y, type: "row", points: [{ x: 0, y }] });
+      lines.push({
+        id: crypto.randomUUID(),
+        x: 0,
+        y,
+        type: "row",
+        initialX: 0,
+        initialY: y,
+        start: Math.random() < 0.1,
+        arise: y,
+        die: canvas.width,
+      });
     }
   }
 }
 drawCanvas();
-
-var increase = (((90 / 180) * Math.PI) / 9) * 0.1;
+var increase = ((90 / 180) * Math.PI) / 9;
+let speed = Math.random() * 20;
 let counter = 0;
 counter += increase;
+let start = 300;
 function loop() {
   let time = window.requestAnimationFrame(loop);
-  let c = 0;
 
   if (!ctx || !canvas) return;
   ctx.globalCompositeOperation = "source-over";
@@ -47,37 +70,37 @@ function loop() {
 
   let dy = 2;
 
-  for (const s of shiny) {
-    if (ctx) {
-      if (s.type == "row") {
-        s.y = s.points[0].y - Math.sin(counter);
-        s.x += dy;
+  for (const line of lines) {
+    if (!line.died)
+      if (ctx && line.start) {
+        if (line.type === "row") {
+          line.y = line.initialY - Math.sin(counter) * 15;
+          line.x += dy;
+        } else {
+          line.x = line.initialX - Math.sin(counter) * 15;
+          line.y += dy;
+        }
+        counter += increase;
       } else {
-        s.x = s.points[0].x - Math.sin(counter);
-        s.y += dy;
+        if (line.type == "row") {
+          line.x += 2;
+        } else {
+          line.y += 2;
+        }
       }
-      counter += increase;
-      Math.sin(s.x * 2 * Math.PI * (1 / 60));
-      ctx.beginPath();
-      ctx.fillRect(s.x, s.y, 1, 1);
-      ctx.shadowColor = "hsl(100,100%,50%)";
-      ctx.shadowBlur = 1;
-      ctx.fillStyle = "hsl(hue,100%,50%)".replace("hue", time.toString());
-
-      ctx.closePath();
+    die(line);
+    if (line.died) {
+      lines = lines.filter((l) => l.id !== line.id);
     }
+
+    ctx.beginPath();
+    ctx.fillRect(line.x, line.y, 1, 1);
+    ctx.shadowColor = "hsl(100,100%,50%)";
+    ctx.shadowBlur = 1;
+    ctx.fillStyle = "hsl(hue,100%,50%)".replace("hue", time.toString());
+
+    ctx.closePath();
   }
-  // for (const l of lines) {
-  //   ctx.beginPath();
-  //   ctx.moveTo(l.x, l.y);
-  //   ctx.lineTo(l.start, l.end);
-  //   ctx.strokeStyle = "rgba(255,255,255,0.3";
-  //   ctx.shadowBlur = 0;
-  //   ctx.lineWidth = 0.1;
-  //   ctx.stroke();
-  //   ctx.closePath();
-  // }
-  // });
 }
 
 loop();

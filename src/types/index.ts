@@ -1,13 +1,12 @@
 export type Line = {
+  id: string;
   x: number;
   y: number;
-  start: number;
-  end: number;
-};
-
-export type Shiny = {
-  x: number;
-  y: number;
+  start: boolean;
+  arise: number;
+  die: number;
+  died?: boolean;
+  initialX: number;
+  initialY: number;
   type: "row" | "col";
-  points: { x: number; y: number }[];
 };
