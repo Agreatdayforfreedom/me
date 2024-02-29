@@ -1,7 +1,18 @@
-import type { Line } from "../types";
+import type { Line, Strategy, StrategyType, Lineal } from "../types";
 
+const strategy: Strategy = {
+  sin: {
+    counter: 0,
+    increase: ((90 / 180) * Math.PI) / 9,
+  },
+  lineal: {
+    dx: 2.0,
+    dy: 2.0,
+  },
+};
 export function spawn({ x, y, type, initialX, initialY, arise, die }: Omit<Line, "start">): Line {
-  let line = {
+  let selected: string = Math.random() < 0.5 ? "sin" : "lineal";
+  let line: Line = {
     x,
     y,
     type,
@@ -11,8 +22,8 @@ export function spawn({ x, y, type, initialX, initialY, arise, die }: Omit<Line,
     arise,
     die,
     died: false,
+    strategy: strategy[selected as keyof Strategy],
   };
-
   return line;
 }
 

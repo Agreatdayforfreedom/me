@@ -1,4 +1,4 @@
-import type { Line } from "../types";
+import type { Line, Strategy } from "../types";
 import { die, spawn } from "./line";
 
 let canvas = document.querySelector("canvas");
@@ -11,6 +11,7 @@ const probability = 0.1;
 
 const options = {
   shadowMultiplier: 2.5,
+  sinIncrease: ((90 / 180) * Math.PI) / 9,
 };
 
 function drawCanvas() {
@@ -38,7 +39,7 @@ function drawCanvas() {
       }
     }
 
-    //vertical position
+    // vertical position
     for (var y = margin; y <= canvas.height - margin; y += padding) {
       if (Math.random() < probability) {
         lines.push(
@@ -58,9 +59,8 @@ function drawCanvas() {
 }
 drawCanvas();
 //TODO
-// var increase = ((90 / 180) * Math.PI) / 9;
+
 // let speed = Math.random() * 20;
-// let counter = 0;
 // let start = 300;
 // let c = 0;
 function loop() {
@@ -87,20 +87,24 @@ function loop() {
     ctx.closePath();
 
     if (!line.died)
-      if (line.type == "row") {
-        // if (line.type === "row") {
-        //   // if (line.type == "row") {
-        //   // if (ctx) {
-        //   line.y = line.initialY + Math.sin(counter) * 9;
-        //   line.x += 5;
-        // } else {
-        //   line.x = line.initialX + Math.sin(counter) * 9;
-        //   line.y += 5;
-        // }
-        // counter += increase;
-        line.x += 2;
-      } else {
-        line.y += 2;
+      if (line.strategy) {
+        if ("dx" in line.strategy) {
+          if (line.type == "row") {
+            line.x += 2;
+          } else {
+            line.y += 2;
+          }
+        } else if ("counter" in line.strategy) {
+          if (line.type === "row") {
+            line.y = line.initialY + Math.sin(line.strategy.counter) * 9;
+            line.x += 5;
+          } else {
+            line.x = line.initialX + Math.sin(line.strategy.counter) * 9;
+            line.y += 5;
+          }
+          console.log(line.strategy.counter);
+          line.strategy.counter += line.strategy.increase;
+        }
       }
 
     die(line);
