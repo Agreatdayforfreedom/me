@@ -1,8 +1,7 @@
 import type { Line } from "../types";
 
-export function spawn({ id, x, y, type, initialX, initialY, arise, die }: Omit<Line, "start">): Line {
+export function spawn({ x, y, type, initialX, initialY, arise, die }: Omit<Line, "start">): Line {
   let line = {
-    id,
     x,
     y,
     type,

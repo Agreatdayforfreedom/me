@@ -1,5 +1,4 @@
 export type Line = {
-  id: string;
   x: number;
   y: number;
   start: boolean;

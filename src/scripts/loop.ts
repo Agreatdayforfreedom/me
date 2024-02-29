@@ -6,26 +6,22 @@ let ctx = canvas?.getContext("2d");
 
 let lines: Line[] = [];
 let test: number[] = [];
+const padding = 50;
+const margin = 20;
+const probability = 1;
 function drawCanvas() {
   if (!canvas) return;
 
-  canvas.style.background = "#000";
-
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  const padding = 60;
-  if (ctx) {
-    ctx.globalCompositeOperation = "source-over";
-    ctx.fillStyle = "rgba(0, 0, 0, 1)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.globalCompositeOperation = "lighter";
+  canvas.style.background = "#000";
 
+  if (ctx) {
     //horizontal position
-    for (var x = 0; x <= canvas.width; x += padding) {
-      if (Math.random() < 0.1) {
+    for (var x = margin; x <= canvas.width - margin; x += padding) {
+      if (Math.random() < probability) {
         lines.push(
           spawn({
-            id: crypto.randomUUID(),
             x,
             y: 0,
             type: "col",
@@ -38,24 +34,22 @@ function drawCanvas() {
       }
     }
 
-    // //vertical position
-    for (var y = 60; y <= canvas.height - 60 * 2; y += padding) {
-      // if (Math.random() < 0.1) {
-      lines.push(
-        spawn({
-          id: crypto.randomUUID(),
-          x: 0,
-          y,
-          type: "row",
-          initialX: 0,
-          initialY: y,
-          arise: y,
-          die: canvas.width,
-        })
-      );
-      // }
+    //vertical position
+    for (var y = margin; y <= canvas.height - margin; y += padding) {
+      if (Math.random() < probability) {
+        lines.push(
+          spawn({
+            x: 0,
+            y,
+            type: "row",
+            initialX: 0,
+            initialY: y,
+            arise: y,
+            die: canvas.width,
+          })
+        );
+      }
     }
-    console.log("total:", lines.length);
   }
 }
 drawCanvas();
