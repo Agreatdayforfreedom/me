@@ -1,15 +1,16 @@
-import type { Line } from "../types";
+import type { Direction, Line } from "../types";
 import { die, spawn } from "./line";
 
 let canvas = document.querySelector("canvas");
 let ctx = canvas?.getContext("2d");
 
 let lines: Line[] = [];
-const padding = 50;
-const margin = 20;
-const probability = 1;
 
 const options = {
+  gap: 50,
+  margin: 20,
+  probabilityOfArising: 0.1,
+  probabilityDirection: 0.5,
   shadowMultiplier: 2.5,
 };
 
@@ -21,42 +22,19 @@ function drawCanvas() {
   canvas.style.background = "#000";
   if (ctx) {
     //horizontal position
-    for (var x = margin; x <= canvas.width - margin; x += padding) {
-      if (Math.random() < probability) {
-        lines.push(
-          // spawnBy("col", x, 0)
-          spawn("col", "up", x, 0, canvas.width, canvas.height)
-          // spawn({
-          //   x,
-          //   y: canvas.height,
-          //   type: "col",
-          //   initialX: x,
-          //   initialY: canvas.height,
-          //   arise: x,
-          //   die: 0,
-          //   direction: "down",
-          // })
-        );
+    for (var x = options.margin; x <= canvas.width - options.margin; x += options.gap) {
+      let direction: Direction = Math.random() < options.probabilityDirection ? "up" : "down";
+
+      if (Math.random() < options.probabilityOfArising) {
+        lines.push(spawn("col", direction, x, 0, canvas.width, canvas.height));
       }
     }
 
     // vertical position
-    for (var y = margin; y <= canvas.height - margin; y += padding) {
-      if (Math.random() < probability) {
-        lines.push(
-          spawn("row", "right", 0, y, canvas.width, canvas.height)
-
-          // spawn({
-          //   x: 0,
-          //   y,
-          //   type: "row",
-          //   initialX: 0,
-          //   initialY: y,
-          //   arise: y,
-          //   die: canvas.width,
-          //   direction: "left",
-          // })
-        );
+    for (var y = options.margin; y <= canvas.height - options.margin; y += options.gap) {
+      let direction: Direction = Math.random() < options.probabilityDirection ? "left" : "right";
+      if (Math.random() < options.probabilityOfArising) {
+        lines.push(spawn("row", direction, 0, y, canvas.width, canvas.height));
       }
     }
   }
@@ -86,23 +64,30 @@ function loop() {
     if (!line.died)
       if (line.strategy) {
         if ("dx" in line.strategy) {
-          // lineal
-          //todo
-          if (line.type == "row") {
+          if (line.direction === "left") {
             line.x += line.dv;
-          } else {
+          } else if (line.direction === "up") {
+            line.y += line.dv;
+          } else if (line.direction === "right") {
+            line.x += line.dv;
+          } else if (line.direction === "down") {
             line.y += line.dv;
           }
         } else if ("counter" in line.strategy) {
           // sin
-          if (line.type === "row") {
+          if (line.direction === "left") {
             line.y = line.initialY + Math.sin(line.strategy.counter) * 9;
             line.x += line.dv;
-          } else {
+          } else if (line.direction === "up") {
+            line.x = line.initialX + Math.sin(line.strategy.counter) * 9;
+            line.y += line.dv;
+          } else if (line.direction === "right") {
+            line.y = line.initialY + Math.sin(line.strategy.counter) * 9;
+            line.x += line.dv;
+          } else if (line.direction === "down") {
             line.x = line.initialX + Math.sin(line.strategy.counter) * 9;
             line.y += line.dv;
           }
-
           line.strategy.counter += line.strategy.increase;
         }
       }

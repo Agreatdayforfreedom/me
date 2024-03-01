@@ -62,11 +62,8 @@ export function spawn(type: "col" | "row", direction: Direction, initialX: numbe
 export function die(line: Line) {
   //   if (!line.died)
   // if (line.direction === "down") console.log(line.x, line.die);
-  if (line.type === "row") {
-    if (line.direction === "left") if (line.x > line.die) line.died = true;
-    if (line.direction === "right") if (line.x < line.die) line.died = true;
-  } else if (line.type === "col") {
-    if (line.direction === "up") if (line.y > line.die) line.died = true;
-    if (line.direction === "down") if (line.y < line.die) line.died = true;
-  }
+  if (line.direction === "left") if (line.x > line.die) line.died = true;
+  if (line.direction === "right") if (line.x < line.die) line.died = true;
+  if (line.direction === "up") if (line.y > line.die) line.died = true;
+  if (line.direction === "down") if (line.y < line.die) line.died = true;
 }
