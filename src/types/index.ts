@@ -3,6 +3,7 @@ export type Axis = "row" | "col";
 export type Line = {
   x: number;
   y: number;
+  dv: number;
   start: boolean;
   arise: number;
   die: number;

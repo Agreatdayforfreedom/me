@@ -1,4 +1,4 @@
-import type { Line, Strategy } from "../types";
+import type { Line } from "../types";
 import { die, spawn } from "./line";
 
 let canvas = document.querySelector("canvas");
@@ -24,16 +24,18 @@ function drawCanvas() {
     for (var x = margin; x <= canvas.width - margin; x += padding) {
       if (Math.random() < probability) {
         lines.push(
-          spawn({
-            x,
-            y: canvas.height,
-            type: "col",
-            initialX: x,
-            initialY: canvas.height,
-            arise: x,
-            die: 0,
-            direction: "down",
-          })
+          // spawnBy("col", x, 0)
+          spawn("col", "up", x, 0, canvas.width, canvas.height)
+          // spawn({
+          //   x,
+          //   y: canvas.height,
+          //   type: "col",
+          //   initialX: x,
+          //   initialY: canvas.height,
+          //   arise: x,
+          //   die: 0,
+          //   direction: "down",
+          // })
         );
       }
     }
@@ -42,16 +44,18 @@ function drawCanvas() {
     for (var y = margin; y <= canvas.height - margin; y += padding) {
       if (Math.random() < probability) {
         lines.push(
-          spawn({
-            x: 0,
-            y,
-            type: "row",
-            initialX: 0,
-            initialY: y,
-            arise: y,
-            die: canvas.width,
-            direction: "left",
-          })
+          spawn("row", "right", 0, y, canvas.width, canvas.height)
+
+          // spawn({
+          //   x: 0,
+          //   y,
+          //   type: "row",
+          //   initialX: 0,
+          //   initialY: y,
+          //   arise: y,
+          //   die: canvas.width,
+          //   direction: "left",
+          // })
         );
       }
     }
@@ -83,19 +87,20 @@ function loop() {
       if (line.strategy) {
         if ("dx" in line.strategy) {
           // lineal
+          //todo
           if (line.type == "row") {
-            line.x += 2;
+            line.x += line.dv;
           } else {
-            line.y -= 2;
+            line.y += line.dv;
           }
         } else if ("counter" in line.strategy) {
           // sin
           if (line.type === "row") {
             line.y = line.initialY + Math.sin(line.strategy.counter) * 9;
-            line.x += 5;
+            line.x += line.dv;
           } else {
             line.x = line.initialX + Math.sin(line.strategy.counter) * 9;
-            line.y -= 5;
+            line.y += line.dv;
           }
 
           line.strategy.counter += line.strategy.increase;

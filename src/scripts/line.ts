@@ -1,4 +1,4 @@
-import type { Line, Strategy, StrategyType, Lineal } from "../types";
+import type { Line, Strategy, StrategyType, Lineal, Direction } from "../types";
 
 const strategy: Strategy = {
   sin: {
@@ -10,11 +10,42 @@ const strategy: Strategy = {
     dy: 2.0,
   },
 };
-export function spawn({ x, y, type, initialX, initialY, arise, die, direction }: Omit<Line, "start">): Line {
+
+export function spawn(type: "col" | "row", direction: Direction, initialX: number, initialY: number, w: number, h: number) {
   let selected: string = Math.random() < 0.5 ? "sin" : "lineal";
+
+  let x = initialX;
+  let y = initialY;
+  let arise = 0,
+    die = 0;
+
+  if (direction === "down") {
+    y = arise = h;
+    die = 0;
+    x = initialX;
+  }
+  if (direction === "up") {
+    y = arise = 0;
+    die = h;
+    x = initialX;
+  }
+  if (direction === "left") {
+    x = arise = 0;
+    die = w;
+    y = initialY;
+  }
+  if (direction === "right") {
+    x = arise = w;
+    die = 0;
+    y = initialY;
+  }
+
+  // let die;
+  // let arise = (die = 0);
   let line: Line = {
     x,
     y,
+    dv: direction === "left" || direction === "up" ? 2 : -2,
     type,
     initialX,
     initialY,
