@@ -1,4 +1,5 @@
-import type { Line, Strategy, StrategyType, Lineal, Direction } from "../types";
+import type { Line, Strategy, StrategyType, Lineal, Direction, Positions } from "../types";
+import { options } from "./options";
 
 const strategy: Strategy = {
   sin: {
@@ -40,8 +41,6 @@ export function spawn(type: "col" | "row", direction: Direction, initialX: numbe
     y = initialY;
   }
 
-  // let die;
-  // let arise = (die = 0);
   let line: Line = {
     x,
     y,
@@ -57,6 +56,40 @@ export function spawn(type: "col" | "row", direction: Direction, initialX: numbe
     direction,
   };
   return line;
+}
+
+export function spawnRandomly(positions: Positions, lines: Line[], w: number, h: number) {
+  let direction: Direction =
+    Math.random() < options.probabilityDirection
+      ? Math.random() < options.probabilityDirection
+        ? "up"
+        : "down"
+      : Math.random() < options.probabilityDirection
+      ? "left"
+      : "right";
+  if (direction === "left" || direction === "right") {
+    lines.push(
+      spawn(
+        "row",
+        direction,
+        positions.row[Math.floor(Math.random() * positions.row.length)].x,
+        positions.row[Math.floor(Math.random() * positions.row.length)].y,
+        w,
+        h
+      )
+    );
+  } else if (direction === "up" || direction === "down") {
+    lines.push(
+      spawn(
+        "col",
+        direction,
+        positions.col[Math.floor(Math.random() * positions.col.length)].x,
+        positions.col[Math.floor(Math.random() * positions.col.length)].y,
+        w,
+        h
+      )
+    );
+  }
 }
 
 export function die(line: Line) {

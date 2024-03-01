@@ -1,18 +1,15 @@
-import type { Direction, Line } from "../types";
-import { die, spawn } from "./line";
+import type { Direction, Line, Positions } from "../types";
+import { die, spawn, spawnRandomly } from "./line";
+import { options } from "./options";
 
 let canvas = document.querySelector("canvas");
 let ctx = canvas?.getContext("2d");
 
 let lines: Line[] = [];
-
-const options = {
-  gap: 50,
-  margin: 20,
-  probabilityOfArising: 0.1,
-  probabilityDirection: 0.5,
-  shadowMultiplier: 2.5,
-};
+let positions: Positions = { col: [], row: [] };
+let fps = 0;
+let last = 0;
+let lastCalledTime = performance.now();
 
 function drawCanvas() {
   if (!canvas) return;
@@ -22,17 +19,19 @@ function drawCanvas() {
   canvas.style.background = "#000";
   if (ctx) {
     //horizontal position
-    for (var x = options.margin; x <= canvas.width - options.margin; x += options.gap) {
+    for (let x = options.margin; x <= canvas.width - options.margin; x += options.gap) {
       let direction: Direction = Math.random() < options.probabilityDirection ? "up" : "down";
-
+      positions.col.push({ x, y: 0 });
       if (Math.random() < options.probabilityOfArising) {
         lines.push(spawn("col", direction, x, 0, canvas.width, canvas.height));
       }
     }
 
     // vertical position
-    for (var y = options.margin; y <= canvas.height - options.margin; y += options.gap) {
+    for (let y = options.margin; y <= canvas.height - options.margin; y += options.gap) {
       let direction: Direction = Math.random() < options.probabilityDirection ? "left" : "right";
+      positions.row.push({ x: 0, y });
+
       if (Math.random() < options.probabilityOfArising) {
         lines.push(spawn("row", direction, 0, y, canvas.width, canvas.height));
       }
@@ -41,10 +40,23 @@ function drawCanvas() {
 }
 drawCanvas();
 
-function loop() {
-  let time = window.requestAnimationFrame(loop);
+function loop(time: number) {
+  window.requestAnimationFrame(loop);
   if (!ctx || !canvas) return;
 
+  //fps
+  let delteTime = (performance.now() - lastCalledTime) / 1000;
+  lastCalledTime = performance.now();
+  fps = 1 / delteTime;
+
+  if (!last || time - last >= options.spawnTime) {
+    last = time;
+
+    // createNewObject();
+    spawnRandomly(positions, lines, canvas.width, canvas.height);
+  }
+
+  //bg
   ctx.globalCompositeOperation = "source-over";
   ctx.save();
   ctx.shadowBlur = 0;
@@ -96,4 +108,4 @@ function loop() {
   }
 }
 
-loop();
+requestAnimationFrame(loop);

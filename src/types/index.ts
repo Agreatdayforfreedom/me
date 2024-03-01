@@ -15,6 +15,11 @@ export type Line = {
   type: Axis;
 };
 
+export type Positions = {
+  col: Array<{ x: number; y: number }>;
+  row: Array<{ x: number; y: number }>;
+};
+
 export type StrategyType = Lineal | Sin;
 
 export type Strategy = {
