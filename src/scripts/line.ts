@@ -5,6 +5,7 @@ const strategy: Strategy = {
   sin: {
     counter: 0,
     increase: ((90 / 180) * Math.PI) / 9,
+    waveLength: 10,
   },
   lineal: {
     dx: 2.0,
@@ -56,6 +57,11 @@ export function spawn(type: "col" | "row", direction: Direction, initialX: numbe
     strategy: { ...strategy[selected as keyof Strategy] },
     direction,
   };
+
+  if (line.strategy && "waveLength" in line.strategy) {
+    line.strategy.waveLength = Math.floor(Math.random() * (10 - 3) + 3);
+  }
+
   return line;
 }
 export function spawnRandomly(positions: Positions, lines: Line[], w: number, h: number) {

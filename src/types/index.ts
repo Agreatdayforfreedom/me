@@ -31,6 +31,7 @@ export type Strategy = {
 type Sin = {
   increase: number;
   counter: number;
+  waveLength: number;
 };
 
 export type Lineal = {

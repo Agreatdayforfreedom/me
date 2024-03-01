@@ -81,16 +81,16 @@ function loop(time: number) {
         } else if ("counter" in line.strategy) {
           // sin
           if (line.direction === "left") {
-            line.y = line.initialY + Math.sin(line.strategy.counter) * 9;
+            line.y = line.initialY + Math.sin(line.strategy.counter) * line.strategy.waveLength;
             line.x += line.dv;
           } else if (line.direction === "up") {
-            line.x = line.initialX + Math.sin(line.strategy.counter) * 9;
+            line.x = line.initialX + Math.sin(line.strategy.counter) * line.strategy.waveLength;
             line.y += line.dv;
           } else if (line.direction === "right") {
-            line.y = line.initialY + Math.sin(line.strategy.counter) * 9;
+            line.y = line.initialY + Math.sin(line.strategy.counter) * line.strategy.waveLength;
             line.x += line.dv;
           } else if (line.direction === "down") {
-            line.x = line.initialX + Math.sin(line.strategy.counter) * 9;
+            line.x = line.initialX + Math.sin(line.strategy.counter) * line.strategy.waveLength;
             line.y += line.dv;
           }
           line.strategy.counter += line.strategy.increase;
