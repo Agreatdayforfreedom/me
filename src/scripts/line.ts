@@ -40,12 +40,13 @@ export function spawn(type: "col" | "row", direction: Direction, initialX: numbe
     die = 0;
     y = initialY;
   }
-
+  let color = "hsl(rand,100%,50%)".replace("rand", Math.floor(Math.random() * 360).toString());
   let line: Line = {
     x,
     y,
     dv: direction === "left" || direction === "up" ? 2 : -2,
     type,
+    color,
     initialX,
     initialY,
     start: Math.random() < 0.1,
@@ -57,7 +58,6 @@ export function spawn(type: "col" | "row", direction: Direction, initialX: numbe
   };
   return line;
 }
-
 export function spawnRandomly(positions: Positions, lines: Line[], w: number, h: number) {
   let direction: Direction =
     Math.random() < options.probabilityDirection

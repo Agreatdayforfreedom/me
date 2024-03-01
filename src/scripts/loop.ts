@@ -48,11 +48,10 @@ function loop(time: number) {
   let delteTime = (performance.now() - lastCalledTime) / 1000;
   lastCalledTime = performance.now();
   fps = 1 / delteTime;
+  lines = lines.filter((l) => l.died !== true);
 
   if (!last || time - last >= options.spawnTime) {
     last = time;
-
-    // createNewObject();
     spawnRandomly(positions, lines, canvas.width, canvas.height);
   }
 
@@ -60,19 +59,13 @@ function loop(time: number) {
   ctx.globalCompositeOperation = "source-over";
   ctx.save();
   ctx.shadowBlur = 0;
-  ctx.fillStyle = "rgba(0,0,0,alp)".replace("alp", "0.04");
+  ctx.fillStyle = "rgba(0,0,0,alp)".replace("alp", options.backgroundAlpha.toString());
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.restore();
   ctx.globalCompositeOperation = "lighter";
 
-  lines = lines.filter((l) => l.died !== true);
-  for (const line of lines) {
-    ctx.beginPath();
-    ctx.fillRect(line.x, line.y, 2, 2);
-    ctx.fillStyle = ctx.shadowColor = "hsl(hue,100%,50%)".replace("hue", time.toString());
+  ctx.restore();
 
-    ctx.shadowBlur = Math.random() * options.shadowMultiplier;
-    ctx.closePath();
+  for (const line of lines) {
     if (!line.died)
       if (line.strategy) {
         if ("dx" in line.strategy) {
@@ -105,6 +98,10 @@ function loop(time: number) {
       }
 
     die(line);
+
+    ctx.fillStyle = ctx.shadowColor = line.color;
+    ctx.shadowBlur = Math.random() * options.shadowMultiplier;
+    ctx.fillRect(line.x, line.y, 2, 2);
   }
 }
 

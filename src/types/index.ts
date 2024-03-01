@@ -8,6 +8,7 @@ export type Line = {
   arise: number;
   die: number;
   died?: boolean;
+  color: string;
   initialX: number;
   initialY: number;
   strategy?: Lineal | Sin;
