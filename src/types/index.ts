@@ -1,3 +1,5 @@
+export type Direction = "up" | "down" | "right" | "left";
+export type Axis = "row" | "col";
 export type Line = {
   x: number;
   y: number;
@@ -8,7 +10,8 @@ export type Line = {
   initialX: number;
   initialY: number;
   strategy?: Lineal | Sin;
-  type: "row" | "col";
+  direction: Direction;
+  type: Axis;
 };
 
 export type StrategyType = Lineal | Sin;
