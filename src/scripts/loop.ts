@@ -102,7 +102,7 @@ function loop() {
             line.x = line.initialX + Math.sin(line.strategy.counter) * 9;
             line.y += 5;
           }
-          console.log(line.strategy.counter);
+
           line.strategy.counter += line.strategy.increase;
         }
       }

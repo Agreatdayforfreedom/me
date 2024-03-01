@@ -22,7 +22,7 @@ export function spawn({ x, y, type, initialX, initialY, arise, die }: Omit<Line,
     arise,
     die,
     died: false,
-    strategy: strategy[selected as keyof Strategy],
+    strategy: { ...strategy[selected as keyof Strategy] },
   };
   return line;
 }
