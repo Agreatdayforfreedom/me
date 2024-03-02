@@ -41,7 +41,7 @@ export function spawn(type: "col" | "row", direction: Direction, initialX: numbe
     die = 0;
     y = initialY;
   }
-  let color = "hsl(rand,100%,50%)".replace("rand", Math.floor(Math.random() * 360).toString());
+  let color = options.color.replace("hue", Math.floor(Math.random() * 360).toString());
   let line: Line = {
     x,
     y,

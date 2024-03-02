@@ -36,12 +36,14 @@ function drawCanvas() {
         lines.push(spawn("row", direction, 0, y, canvas.width, canvas.height));
       }
     }
+
+    requestAnimationFrame(loop);
   }
 }
 drawCanvas();
-
+let ref = 0;
 function loop(time: number) {
-  window.requestAnimationFrame(loop);
+  ref = window.requestAnimationFrame(loop);
   if (!ctx || !canvas) return;
 
   //fps
@@ -97,12 +99,20 @@ function loop(time: number) {
         }
       }
 
-    die(line);
-
-    ctx.fillStyle = ctx.shadowColor = line.color;
+    ctx.fillStyle = ctx.shadowColor = line.color.replace("lightness", (Math.abs(Math.sin(time / 1000)) * 30 + 30).toString());
     ctx.shadowBlur = Math.random() * options.shadowMultiplier;
     ctx.fillRect(line.x, line.y, 2, 2);
+    die(line);
   }
 }
 
-requestAnimationFrame(loop);
+window.addEventListener("resize", () => {
+  if (canvas) {
+    cancelAnimationFrame(ref);
+    lines = [];
+    positions = { col: [], row: [] };
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    drawCanvas();
+  }
+});
