@@ -1,0 +1,29 @@
+---
+import type { Project, Tecnology } from '../types';
+import Bagde from './Bagde.astro'
+interface Props extends Project {};
+
+
+
+const { page_link, github_link, title, desc, tecnologies } = Astro.props;
+---
+
+<article class="border border-slate-800 space-y-1 px-5 py-3 rounded-md">
+	<div class="flex justify-between">
+		<a href={page_link}>
+			<h2>
+				{title}
+				<span></span>
+			</h2>
+		</a>
+		<a href={github_link}>git</a>
+	</div>
+	<p>
+		{desc}
+	</p>
+	<div class="space-x-2 ">
+		{tecnologies.map((c) => (
+			<Bagde color={c.color}>{c.content}</Bagde>
+		))}
+	</div>
+</article>

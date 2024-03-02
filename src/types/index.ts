@@ -38,3 +38,18 @@ export type Lineal = {
   dx: number;
   dy: number;
 };
+
+//----------
+
+export type Project = {
+  title: string;
+  desc: string;
+  github_link: string;
+  page_link: string;
+  tecnologies: Tecnology[];
+};
+
+export type Tecnology = {
+  content: string;
+  color: string;
+};

@@ -10,7 +10,7 @@ let positions: Positions = { col: [], row: [] };
 let fps = 0;
 let last = 0;
 let lastCalledTime = performance.now();
-
+let focused = true;
 function drawCanvas() {
   if (!canvas) return;
 
@@ -52,7 +52,7 @@ function loop(time: number) {
   fps = 1 / delteTime;
   lines = lines.filter((l) => l.died !== true);
 
-  if (!last || time - last >= options.spawnTime) {
+  if (!last || (time - last >= options.spawnTime && focused)) {
     last = time;
     spawnRandomly(positions, lines, canvas.width, canvas.height);
   }
@@ -105,6 +105,13 @@ function loop(time: number) {
     die(line);
   }
 }
+
+window.onfocus = function () {
+  focused = true;
+};
+window.onblur = function () {
+  focused = false;
+};
 
 window.addEventListener("resize", () => {
   if (canvas) {
