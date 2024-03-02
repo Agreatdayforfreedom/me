@@ -1,6 +1,7 @@
 ---
 import type { Project, Tecnology } from '../types';
 import Bagde from './Bagde.astro'
+import Github from './svg/Github.astro';
 interface Props extends Project {};
 
 
@@ -10,18 +11,18 @@ const { page_link, github_link, title, desc, tecnologies } = Astro.props;
 
 <article class="border border-slate-800 space-y-1 px-5 py-3 rounded-md">
 	<div class="flex justify-between">
-		<a href={page_link}>
+		<a href={page_link} class="text-xl font-semibold">
 			<h2>
 				{title}
 				<span></span>
 			</h2>
 		</a>
-		<a href={github_link}>git</a>
+		<a href={github_link} class="flex items-center"><Github size={18} /></a>
 	</div>
-	<p>
+	<p class="text-sm ml-2">
 		{desc}
 	</p>
-	<div class="space-x-2 ">
+	<div class="gap-2 flex flex-wrap">
 		{tecnologies.map((c) => (
 			<Bagde color={c.color}>{c.content}</Bagde>
 		))}
