@@ -148,7 +148,7 @@ export function spawnRandomly(positions: Positions, lines: Line[], w: number, h:
 }
 
 export function die(line: Line) {
-  if (line.strategy && "lifetime" in line.strategy) if (line.strategy.lifetime > 12.5) line.died = true;
+  if (line.strategy && "lifetime" in line.strategy) if (line.strategy.lifetime > 3.5) line.died = true;
   if (line.direction === "left") if (line.x > line.die) line.died = true;
   if (line.direction === "right") if (line.x < line.die) line.died = true;
   if (line.direction === "up") if (line.y > line.die) line.died = true;
