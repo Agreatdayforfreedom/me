@@ -34,6 +34,8 @@ type FoliumOfDescartes = {
   t: number;
   inc: number;
   lifetime: number;
+  dfx: number;
+  dfy: number;
 };
 
 type Sin = {

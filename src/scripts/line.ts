@@ -16,17 +16,35 @@ const strategy: Strategy = {
     inc: 1,
     t: -100,
     lifetime: 0,
+    dfx: 1,
+    dfy: 1,
   },
 };
 
 export function spawnFoliumOfDescartes(w: number, h: number): Line {
-  const a = Math.floor(Math.random() * 100);
+  const a = Math.floor(Math.random() * (100 - 10) + 10);
   const t = -5;
   const initialX = Math.floor(Math.random() * w);
   const initialY = Math.floor(Math.random() * h);
   const x = initialX + (3 * a * t) / (1 + Math.pow(t, 3));
   const y = initialY + (3 * a * Math.pow(t, 2)) / (1 + Math.pow(t, 3));
   const color = options.color.replace("hue", Math.floor(Math.random() * 360).toString());
+
+  let dfx = 1;
+  let dfy = 1;
+
+  // bottom
+  if (initialX + a > w) dfx = -1;
+  // top
+  else if (initialX - a < 0) dfx = 1;
+  // pick random direction
+  else dfx = Math.random() < 0.5 ? 1 : -1;
+  // right
+  if (initialY + a > h) dfy = -1;
+  //left
+  else if (initialY - a < 0) dfy = 1;
+  // same
+  else dfy = Math.random() < 0.5 ? 1 : -1;
 
   let line: Line = {
     x,
@@ -36,7 +54,7 @@ export function spawnFoliumOfDescartes(w: number, h: number): Line {
     arise: 0,
     die: 0,
     color,
-    strategy: { ...strategy["folium_of_descartes"] },
+    strategy: { ...strategy["folium_of_descartes"], dfx, dfy, a },
     dv: 0,
     type: "col",
     start: false,

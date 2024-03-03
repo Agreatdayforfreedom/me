@@ -54,8 +54,11 @@ function loop(time: number) {
 
   if (!last || (time - last >= options.spawnTime && focused)) {
     last = time;
-    spawnRandomly(positions, lines, canvas.width, canvas.height);
-    lines.push(spawnFoliumOfDescartes(canvas.width, canvas.height));
+    if (Math.random() < 0.7) {
+      spawnRandomly(positions, lines, canvas.width, canvas.height);
+    } else {
+      lines.push(spawnFoliumOfDescartes(canvas.width, canvas.height));
+    }
   }
 
   //bg
@@ -99,12 +102,12 @@ function loop(time: number) {
           line.strategy.counter += line.strategy.increase;
         } else if ("t" in line.strategy) {
           if (line.strategy.inc > 0.05) {
-            line.strategy.inc -= 0.0065;
+            line.strategy.inc -= 0.0055;
           }
           line.strategy.lifetime += 0.01;
 
-          line.x = line.initialX + (3 * line.strategy.a * line.strategy.t) / (1 + Math.pow(line.strategy.t, 3));
-          line.y = line.initialY + (3 * line.strategy.a * Math.pow(line.strategy.t, 2)) / (1 + Math.pow(line.strategy.t, 3));
+          line.x = line.initialX + (3 * line.strategy.dfx * line.strategy.a * line.strategy.t) / (1 + Math.pow(line.strategy.t, 3));
+          line.y = line.initialY + (3 * line.strategy.dfy * line.strategy.a * Math.pow(line.strategy.t, 2)) / (1 + Math.pow(line.strategy.t, 3));
           line.strategy.t += line.strategy.inc;
         }
       }
