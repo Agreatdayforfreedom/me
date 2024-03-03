@@ -11,7 +11,38 @@ const strategy: Strategy = {
     dx: 2.0,
     dy: 2.0,
   },
+  folium_of_descartes: {
+    a: 50,
+    inc: 1,
+    t: -100,
+    lifetime: 0,
+  },
 };
+
+export function spawnFoliumOfDescartes(w: number, h: number): Line {
+  const a = Math.floor(Math.random() * 100);
+  const t = -5;
+  const initialX = Math.floor(Math.random() * w);
+  const initialY = Math.floor(Math.random() * h);
+  const x = initialX + (3 * a * t) / (1 + Math.pow(t, 3));
+  const y = initialY + (3 * a * Math.pow(t, 2)) / (1 + Math.pow(t, 3));
+  const color = options.color.replace("hue", Math.floor(Math.random() * 360).toString());
+
+  let line: Line = {
+    x,
+    y,
+    initialX,
+    initialY,
+    arise: 0,
+    die: 0,
+    color,
+    strategy: { ...strategy["folium_of_descartes"] },
+    dv: 0,
+    type: "col",
+    start: false,
+  };
+  return line;
+}
 
 export function spawn(type: "col" | "row", direction: Direction, initialX: number, initialY: number, w: number, h: number) {
   let selected: string = Math.random() < 0.5 ? "sin" : "lineal";
@@ -99,8 +130,7 @@ export function spawnRandomly(positions: Positions, lines: Line[], w: number, h:
 }
 
 export function die(line: Line) {
-  //   if (!line.died)
-  // if (line.direction === "down") console.log(line.x, line.die);
+  if (line.strategy && "lifetime" in line.strategy) if (line.strategy.lifetime > 12.5) line.died = true;
   if (line.direction === "left") if (line.x > line.die) line.died = true;
   if (line.direction === "right") if (line.x < line.die) line.died = true;
   if (line.direction === "up") if (line.y > line.die) line.died = true;

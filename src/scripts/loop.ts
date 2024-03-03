@@ -1,5 +1,5 @@
 import type { Direction, Line, Positions } from "../types";
-import { die, spawn, spawnRandomly } from "./line";
+import { die, spawn, spawnFoliumOfDescartes, spawnRandomly } from "./line";
 import { options } from "./options";
 
 let canvas = document.querySelector("canvas");
@@ -55,6 +55,7 @@ function loop(time: number) {
   if (!last || (time - last >= options.spawnTime && focused)) {
     last = time;
     spawnRandomly(positions, lines, canvas.width, canvas.height);
+    lines.push(spawnFoliumOfDescartes(canvas.width, canvas.height));
   }
 
   //bg
@@ -96,12 +97,22 @@ function loop(time: number) {
             line.y += line.dv;
           }
           line.strategy.counter += line.strategy.increase;
+        } else if ("t" in line.strategy) {
+          if (line.strategy.inc > 0.05) {
+            line.strategy.inc -= 0.0065;
+          }
+          line.strategy.lifetime += 0.01;
+
+          line.x = line.initialX + (3 * line.strategy.a * line.strategy.t) / (1 + Math.pow(line.strategy.t, 3));
+          line.y = line.initialY + (3 * line.strategy.a * Math.pow(line.strategy.t, 2)) / (1 + Math.pow(line.strategy.t, 3));
+          line.strategy.t += line.strategy.inc;
         }
       }
 
     ctx.fillStyle = ctx.shadowColor = line.color.replace("lightness", (Math.abs(Math.sin(time / 1000)) * 30 + 30).toString());
     ctx.shadowBlur = Math.random() * options.shadowMultiplier;
     ctx.fillRect(line.x, line.y, 2, 2);
+
     die(line);
   }
 }

@@ -11,8 +11,8 @@ export type Line = {
   color: string;
   initialX: number;
   initialY: number;
-  strategy?: Lineal | Sin;
-  direction: Direction;
+  strategy?: StrategyType;
+  direction?: Direction;
   type: Axis;
 };
 
@@ -21,11 +21,19 @@ export type Positions = {
   row: Array<{ x: number; y: number }>;
 };
 
-export type StrategyType = Lineal | Sin;
+export type StrategyType = Lineal | Sin | FoliumOfDescartes;
 
 export type Strategy = {
   sin: Sin;
   lineal: Lineal;
+  folium_of_descartes: FoliumOfDescartes;
+};
+
+type FoliumOfDescartes = {
+  a: number;
+  t: number;
+  inc: number;
+  lifetime: number;
 };
 
 type Sin = {
