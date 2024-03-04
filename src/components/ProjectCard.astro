@@ -9,20 +9,20 @@ interface Props extends Project {};
 const { page_link, github_link, title, desc, tecnologies } = Astro.props;
 ---
 
-<article class="border border-slate-800 space-y-1 px-5 py-3 rounded-md">
-	<div class="flex justify-between">
-		<a href={page_link} class="text-xl font-semibold">
-			<h2>
-				{title}
-				<span></span>
-			</h2>
-		</a>
-		<a href={github_link} class="flex items-center"><Github size={18} /></a>
-	</div>
-	<p class="text-sm ml-2">
-		{desc}
-	</p>
-	<div class="gap-2 flex flex-wrap">
+<article class="flex flex-col border border-slate-800 space-y-1 px-5 py-3 rounded-md w-full">
+  <div class="flex justify-between">
+    <a href={page_link} target="_blank" class="text-xl font-semibold">
+      <h2>
+        {title}
+        <span></span>
+      </h2>
+    </a>
+    <a href={github_link} target="_blank" class="flex items-center"><Github size={18} /></a>
+  </div>
+  <p class="text-sm ml-2 py-2">
+    {desc}
+  </p>
+	<div class="gap-2 flex flex-wrap items-center flex-1">
 		{tecnologies.map((c) => (
 			<Bagde color={c.color}>{c.content}</Bagde>
 		))}
