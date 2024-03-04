@@ -15,6 +15,7 @@ import Postgresql from '../components/svg/Postgresql.astro';
 import Redis from '../components/svg/Redis.astro';
 import Git from '../components/svg/Git.astro';
 import Tailwind from '../components/svg/Tailwind.astro';
+import Docker from '../components/svg/Docker.astro';
 const projects: Project[] = [
   {
     desc: "Reddit clone",
@@ -43,9 +44,9 @@ const projects: Project[] = [
 ---
 
 <Layout title="Matias Bertoni">
-  <main class="relative mt-8 z-10 w-full h-screen bg-black/10 flex justify-center">
+  <main class="relative mt-8 z-10 w-full bg-black/10 flex justify-center">
     <div class="max-w-[75%] flex">
-      <div class="max-h-[80%] w-full space-y-4">
+      <div class="w-full space-y-4">
         <div>
           <h1 class="text-4xl font-semibold">Matias Bertoni</h1>
           <section class="text-[#b8b8b8]">
@@ -88,6 +89,7 @@ const projects: Project[] = [
                 <Redis />
                 <Git />
                 <Tailwind />
+                <Docker />
             </div>
           </section>
         </div>
