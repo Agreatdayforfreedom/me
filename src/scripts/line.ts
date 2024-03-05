@@ -1,4 +1,11 @@
-import type { Line, Strategy, StrategyType, Lineal, Direction, Positions } from "../types";
+import type {
+  Line,
+  Strategy,
+  StrategyType,
+  Lineal,
+  Direction,
+  Positions,
+} from "../types";
 import { options } from "./options";
 
 const strategy: Strategy = {
@@ -22,13 +29,16 @@ const strategy: Strategy = {
 };
 
 export function spawnFoliumOfDescartes(w: number, h: number): Line {
-  const a = Math.floor(Math.random() * (100 - 10) + 10);
+  const a = Math.floor(Math.random() * (150 - 50) + 50);
   const t = -5;
   const initialX = Math.floor(Math.random() * w);
   const initialY = Math.floor(Math.random() * h);
   const x = initialX + (3 * a * t) / (1 + Math.pow(t, 3));
   const y = initialY + (3 * a * Math.pow(t, 2)) / (1 + Math.pow(t, 3));
-  const color = options.color.replace("hue", Math.floor(Math.random() * 360).toString());
+  const color = options.color.replace(
+    "hue",
+    Math.floor(Math.random() * 360).toString()
+  );
 
   let dfx = 1;
   let dfy = 1;
@@ -62,7 +72,14 @@ export function spawnFoliumOfDescartes(w: number, h: number): Line {
   return line;
 }
 
-export function spawn(type: "col" | "row", direction: Direction, initialX: number, initialY: number, w: number, h: number) {
+export function spawn(
+  type: "col" | "row",
+  direction: Direction,
+  initialX: number,
+  initialY: number,
+  w: number,
+  h: number
+) {
   let selected: string = Math.random() < 0.5 ? "sin" : "lineal";
 
   let x = initialX;
@@ -90,7 +107,10 @@ export function spawn(type: "col" | "row", direction: Direction, initialX: numbe
     die = 0;
     y = initialY;
   }
-  let color = options.color.replace("hue", Math.floor(Math.random() * 360).toString());
+  let color = options.color.replace(
+    "hue",
+    Math.floor(Math.random() * 360).toString()
+  );
   let line: Line = {
     x,
     y,
@@ -113,7 +133,12 @@ export function spawn(type: "col" | "row", direction: Direction, initialX: numbe
 
   return line;
 }
-export function spawnRandomly(positions: Positions, lines: Line[], w: number, h: number) {
+export function spawnRandomly(
+  positions: Positions,
+  lines: Line[],
+  w: number,
+  h: number
+) {
   let direction: Direction =
     Math.random() < options.probabilityDirection
       ? Math.random() < options.probabilityDirection
@@ -148,7 +173,8 @@ export function spawnRandomly(positions: Positions, lines: Line[], w: number, h:
 }
 
 export function die(line: Line) {
-  if (line.strategy && "lifetime" in line.strategy) if (line.strategy.lifetime > 3.5) line.died = true;
+  if (line.strategy && "lifetime" in line.strategy)
+    if (line.strategy.lifetime > 3.5) line.died = true;
   if (line.direction === "left") if (line.x > line.die) line.died = true;
   if (line.direction === "right") if (line.x < line.die) line.died = true;
   if (line.direction === "up") if (line.y > line.die) line.died = true;
