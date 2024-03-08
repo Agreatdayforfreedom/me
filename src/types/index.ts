@@ -52,10 +52,12 @@ export type Lineal = {
 //----------
 
 export type Project = {
+  data_open: string;
   title: string;
   desc: string;
   github_link: string;
   page_link: string;
+  img_path: string;
   tecnologies: Tecnology[];
 };
 

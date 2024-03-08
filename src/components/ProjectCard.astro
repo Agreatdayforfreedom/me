@@ -7,7 +7,7 @@ interface Props extends Project {};
 
 
 
-const { page_link, github_link, title, desc, tecnologies } = Astro.props;
+const { data_open, page_link, github_link, title, desc, img_path, tecnologies } = Astro.props;
 ---
 
 <article class="flex flex-col border border-slate-800 space-y-1 px-5 py-3 rounded-md w-full">
@@ -20,7 +20,7 @@ const { page_link, github_link, title, desc, tecnologies } = Astro.props;
     </a>
     <div class="flex items-end space-x-2">
 
-      <ImagePreview img={"/bmp_to_ascii.jpg"}/>
+      <ImagePreview data_open={data_open} img={img_path}/>
       
       <a href={github_link} aria-label="Github repository" target="_blank" class="flex items-center"><Github size={18} /></a>
     </div>

@@ -17,10 +17,12 @@ import Tailwind from '../components/svg/Tailwind.astro';
 import Docker from '../components/svg/Docker.astro';
 const projects: Project[] = [
   {
+    data_open: crypto.randomUUID(), 
     desc: "Reddit clone",
     title: "Reddit",
     github_link: "https://github.com/Agreatdayforfreedom/Red.dot---Next.js-Reddit-Clone-",
     page_link: "https://reddot-roan.vercel.app/",
+    img_path: "/home.png",
     tecnologies: [
       { content: "Next.js", color: "#374151" },
       { content: "Postgresql", color: "#008bb9" },
@@ -28,10 +30,12 @@ const projects: Project[] = [
     ],
   },
   {
+    data_open: crypto.randomUUID(), 
     title: "Library",
     desc: "E-commerce of books",
     github_link: "https://github.com/Agreatdayforfreedom/react-nestjs-ecommerce",
     page_link: "https://github.com/Agreatdayforfreedom/react-nestjs-ecommerce",
+    img_path:"/bmp_to_ascii.jpg",
     tecnologies: [
       { content: "React", color: "#04d8f9" },
       { content: "Postgres", color: "#008bb9" },
@@ -40,10 +44,12 @@ const projects: Project[] = [
     ],
   },
   {
+    data_open: crypto.randomUUID(), 
     title: "BMP to ASCII",
     desc: "lorem",
     github_link: "",
     page_link: "",
+    img_path: "/bmp_to_ascii.jpg",
     tecnologies: [
       { content: "C", color: "#374151" },
     ],
@@ -77,7 +83,7 @@ const projects: Project[] = [
             <div class="mt-4 grid gap-y-2 sm:grid-cols-2 sm:gap-x-2 lg:grid-cols-3">
               {
                 projects.map((p) => (
-                  <ProjectCard desc={p.desc} title={p.title} github_link={p.github_link} page_link={p.page_link} tecnologies={p.tecnologies} />
+                  <ProjectCard data_open={p.data_open} desc={p.desc} title={p.title} github_link={p.github_link} img_path={p.img_path} page_link={p.page_link} tecnologies={p.tecnologies} />
                 ))
               }
             </div>
