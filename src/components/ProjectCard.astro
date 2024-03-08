@@ -1,6 +1,7 @@
 ---
-import type { Project, Tecnology } from '../types';
+import type { Project } from '../types';
 import Bagde from './Bagde.astro'
+import ImagePreview from './ImagePreview.astro'
 import Github from './svg/Github.astro';
 interface Props extends Project {};
 
@@ -27,4 +28,5 @@ const { page_link, github_link, title, desc, tecnologies } = Astro.props;
 			<Bagde color={c.color}>{c.content}</Bagde>
 		))}
 	</div>
+  <ImagePreview img={"/bmp_to_ascii.jpg"}/>
 </article>
