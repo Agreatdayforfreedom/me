@@ -14,11 +14,38 @@ const { img } = Astro.props;
       class="max-h-full bg-clip-border"
       src={img}
     />
+    <form class="fixed top-0 right-0">
+      <button id="onclose" formmethod="dialog"><svg width="64px" height="64px" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="m10.939 12-3.9697 3.9697 1.0607 1.0607 3.9697-3.9697 3.9697 3.9697 1.0607-1.0607-3.9697-3.9697 3.9696-3.9696-1.0607-1.0607-3.9696 3.9696-3.9696-3.9696-1.0607 1.0607 3.9696 3.9696z" clip-rule="evenodd" fill="#fff" fill-rule="evenodd"/>
+        </svg>
+        </button>
+    </form>
   </dialog>
 
   <script>
     const $buttons = document.querySelectorAll("#showmore");
     const $dialog  = document.querySelector("dialog");
+    const $img  = document.querySelector("dialog>img");
+    const $oncloseall = document.querySelectorAll("onclose");
+
+
+    $img.addEventListener("click", (e) => {
+      e.stopPropagation()
+    })
+
+    $dialog.addEventListener("click", () => {
+      $dialog.close()
+    })
+
+    $oncloseall.forEach($onclose => {
+      $onclose?.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        if($dialog) {
+          $dialog.close()
+        }
+      })
+    })
 
     $buttons.forEach($button => {      
       $button?.addEventListener('click',() => {
@@ -33,11 +60,35 @@ const { img } = Astro.props;
 
 <style>
   dialog::backdrop {
-    backdrop-filter: blur(1.5px);
+
+    backdrop-filter: blur(0px);
+    transition: display .5s allow-discrete,
+    overlay .5s allow-discrete,backdrop-filter .5s;
   }
 
+  dialog[open]::backdrop{
+    backdrop-filter: blur(2px);
+  }
+
+  @starting-style {
+  dialog[open]::backdrop {
+    backdrop-filter: blur(0px);
+    
+  }
+}
+
   dialog[open] {
-      animation: myFadeIn 0.5s ease normal;
+    animation: expandIn 0.25s ease normal;
+  }
+  
+  /* dialog>form {
+    display: none;
+  } */
+
+  dialog[open]>form {
+
+    animation: expandIn 2s ease normal;
+    
   }
 
   @keyframes expandIn{
