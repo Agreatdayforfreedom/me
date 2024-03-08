@@ -18,7 +18,12 @@ const { page_link, github_link, title, desc, tecnologies } = Astro.props;
         <span></span>
       </h2>
     </a>
-    <a href={github_link} aria-label="Github repository" target="_blank" class="flex items-center"><Github size={18} /></a>
+    <div class="flex items-end space-x-2">
+
+      <ImagePreview img={"/bmp_to_ascii.jpg"}/>
+      
+      <a href={github_link} aria-label="Github repository" target="_blank" class="flex items-center"><Github size={18} /></a>
+    </div>
   </div>
   <p class="text-sm ml-2 py-2">
     {desc}
@@ -28,5 +33,4 @@ const { page_link, github_link, title, desc, tecnologies } = Astro.props;
 			<Bagde color={c.color}>{c.content}</Bagde>
 		))}
 	</div>
-  <ImagePreview img={"/bmp_to_ascii.jpg"}/>
 </article>

@@ -1,4 +1,6 @@
 ---
+import Image from '../components/svg/Image.astro';
+
 interface Props {
   img: string;
 }
@@ -7,8 +9,8 @@ const { img } = Astro.props;
 
 ---
 
-<div>
-  <button id="showmore">Show More</button>
+<div class="w-[18px] h-[18px]">
+  <button id="showmore" ><Image size={18}/></button>
   <dialog class="max-w-[60%] max-h-[80%] rounded ">
     <img 
       class="max-h-full bg-clip-border"
