@@ -9,7 +9,7 @@ const { img } = Astro.props;
 
 <div>
   <button id="showmore">Show More</button>
-  <dialog class="max-w-[60%] max-h-[80%] rounded">
+  <dialog class="max-w-[60%] max-h-[80%] rounded ">
     <img 
       class="max-h-full bg-clip-border"
       src={img}
@@ -34,6 +34,20 @@ const { img } = Astro.props;
 <style>
   dialog::backdrop {
     backdrop-filter: blur(1.5px);
-}
+  }
 
+  dialog[open] {
+      animation: myFadeIn 0.5s ease normal;
+  }
+
+  @keyframes expandIn{
+    from {
+      opacity: 0;
+      scale: 0.5;
+    }
+    to {
+      opacity: 1;
+      scale:1;
+    }
+  }
 </style>
