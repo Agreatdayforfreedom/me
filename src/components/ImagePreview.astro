@@ -11,7 +11,7 @@ const { img, data_open } = Astro.props;
 ---
 
 <div class="w-[18px] h-[18px]">
-  <button id="showmore" data-btnopen={data_open} ><Image size={18}/></button>
+  <button id="img_preview" data-id={data_open} ><Image size={18}/></button>
   <dialog class="max-w-[60%] max-h-[80%] rounded" data-open={data_open}>
     <img 
       class="max-h-full bg-clip-border"
@@ -26,21 +26,15 @@ const { img, data_open } = Astro.props;
   </dialog>
 
   <script>
-    const $buttons = document.querySelectorAll("#showmore");
-    const $dialog  = document.querySelector("dialog");
-    const $img  = document.querySelector("dialog>img");
-    const $oncloseall = document.querySelectorAll("onclose");
+    const $buttons: NodeListOf<HTMLElement> = document.querySelectorAll("#img_preview");
+    
 
-
-    $img.addEventListener("click", (e) => {
-      e.stopPropagation()
-    })
-
-    $dialog.addEventListener("click", () => {
-      $dialog.close()
-    })
-
-    $oncloseall.forEach($onclose => {
+    $buttons.forEach($button => {      
+      const $dialog: HTMLDialogElement | null = document.querySelector(`[data-open='${$button.dataset.id}']`);
+      const $img  = document.querySelector(`[data-open='${$button.dataset.id}']>img`);
+      const $onclose = document.querySelector(`[data-open='${$button.dataset.id}']>form>button`);
+      if(!$img || !$dialog) return;
+      
       $onclose?.addEventListener('click', (e) => {
         e.preventDefault();
         
@@ -48,16 +42,18 @@ const { img, data_open } = Astro.props;
           $dialog.close()
         }
       })
-    })
+      $img.addEventListener("click", (e) => {
+      e.stopPropagation()
+      })
 
-    $buttons.forEach($button => {      
-      const $m = document.querySelector(`[data-open='${$button.dataset.btnopen}']`)
-      console.log($m)
+      $dialog.addEventListener("click", () => {
+        $dialog.close()
+      })
       $button?.addEventListener('click',() => {
-        if($m) {
-          $m.showModal();
+        if($dialog) {
+          $dialog.showModal();
         }
-      },false);
+      });
     });
 
   </script>
