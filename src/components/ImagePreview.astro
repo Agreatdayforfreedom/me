@@ -12,7 +12,7 @@ const { img, data_open } = Astro.props;
 
 <div class="w-[18px] h-[18px]">
   <button id="img_preview" data-id={data_open} ><Image size={18}/></button>
-  <dialog class="max-w-[60%] max-h-[80%] rounded" data-open={data_open}>
+  <dialog class="max-w-[95%] md:max-w-[75%] rounded" data-open={data_open}>
     <img 
       class="max-h-full bg-clip-border"
       src={img}
@@ -21,7 +21,7 @@ const { img, data_open } = Astro.props;
       <button id="onclose" formmethod="dialog"><svg width="64px" height="64px" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path d="m10.939 12-3.9697 3.9697 1.0607 1.0607 3.9697-3.9697 3.9697 3.9697 1.0607-1.0607-3.9697-3.9697 3.9696-3.9696-1.0607-1.0607-3.9696 3.9696-3.9696-3.9696-1.0607 1.0607 3.9696 3.9696z" clip-rule="evenodd" fill="#fff" fill-rule="evenodd"/>
         </svg>
-        </button>
+      </button>
     </form>
   </dialog>
 
