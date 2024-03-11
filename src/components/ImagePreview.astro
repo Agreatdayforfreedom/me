@@ -12,9 +12,8 @@ const { img, data_open } = Astro.props;
 
 <div class="w-[18px] h-[18px]">
   <button id="img_preview" data-id={data_open} ><Image size={18}/></button>
-  <dialog class="max-w-[95%] md:max-w-[75%] rounded" data-open={data_open}>
+  <dialog class="max-w-full md:max-w-[700px] max-h-auto" data-open={data_open}>
     <img 
-      class="max-h-full bg-clip-border"
       src={img}
     />
     <form class="fixed top-0 right-0">
@@ -60,6 +59,25 @@ const { img, data_open } = Astro.props;
 </div>
 
 <style>
+
+/* dialog {
+            width: 100%;
+            max-width: 80%;
+            height: auto;
+            position: relative;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+        } */
   dialog::backdrop {
 
     backdrop-filter: blur(0px);
@@ -82,10 +100,6 @@ const { img, data_open } = Astro.props;
     animation: expandIn 0.25s ease normal;
   }
   
-  /* dialog>form {
-    display: none;
-  } */
-
   dialog[open]>form {
 
     animation: expandIn 2s ease normal;
