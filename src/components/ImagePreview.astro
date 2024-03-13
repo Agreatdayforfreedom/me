@@ -17,11 +17,13 @@ const { paths, data_open } = Astro.props;
 <div class="w-[18px] h-[18px]">
   <button id="img_preview" data-id={data_open} ><Image size={18}/></button>
   <dialog class="max-w-full md:max-w-[700px] max-h-auto bg-transparent" data-open={data_open}>
-    {paths.map((path:string) => (
-      <div id="slide">
-        <img src={path} />
-      </div>
-    ))}
+    <div class="expand">
+      {paths.map((path:string) => (
+        <div id="slide">
+          <img src={path} />
+          </div>
+      ))}
+    </div>
       
     <div class="text-white justify-center flex gap-5 mt-2">
       <button id="left" class="hover:-translate-x-1 disabled:translate-x-0 [&>svg]:disabled:fill-[#808080] transition-transform hover:cursor-pointer">
@@ -44,7 +46,7 @@ const { paths, data_open } = Astro.props;
     const $buttons: NodeListOf<HTMLElement> = document.querySelectorAll("#img_preview");
     
     function show(id: string, activedIndex: number) {
-      const $slider: NodeListOf<HTMLDivElement> | null  = document.querySelectorAll(`[data-open='${id}']>#slide`);
+      const $slider: NodeListOf<HTMLDivElement> | null  = document.querySelectorAll(`[data-open='${id}'] #slide`);
       
     
       for (let i = 0; i < $slider.length; i++) {
@@ -59,7 +61,7 @@ const { paths, data_open } = Astro.props;
       let activedIndex = 0; 
       const $dialog: HTMLDialogElement | null = document.querySelector(`[data-open='${$button.dataset.id}']`);
       const $onclose = document.querySelector(`[data-open='${$button.dataset.id}']>form>button`);
-      const $slider: NodeListOf<HTMLDivElement> | null  = document.querySelectorAll(`[data-open='${$button.dataset.id}']>#slide`);
+      const $slider: NodeListOf<HTMLDivElement> | null  = document.querySelectorAll(`[data-open='${$button.dataset.id}'] #slide`);
 
       if(!$dialog) return;
       $onclose?.addEventListener('click', (e) => {
@@ -136,14 +138,10 @@ const { paths, data_open } = Astro.props;
   }
 }
 
-  dialog[open] {
+  dialog[open] > .expand {
     animation: expandIn 0.25s ease normal;
   }
   
-  dialog[open]>form {
-    animation: expandIn 2s ease normal;
-  }
-
   @keyframes expandIn{
     from {
       opacity: 0;
