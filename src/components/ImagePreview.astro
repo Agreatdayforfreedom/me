@@ -15,7 +15,7 @@ const { paths, data_open } = Astro.props;
 ---
 
 <div class="w-[18px] h-[18px]">
-  <button id="img_preview" data-id={data_open} ><Image size={18}/></button>
+  <button data-select="img_preview" data-id={data_open} aria-label="preview-imagen-button"><Image size={18}/></button>
   <dialog class="max-w-full md:max-w-[700px] max-h-auto bg-transparent" data-open={data_open}>
     <div class="expand">
       {paths.map((path:string) => (
@@ -43,7 +43,7 @@ const { paths, data_open } = Astro.props;
   </dialog>
 
   <script>
-    const $buttons: NodeListOf<HTMLElement> = document.querySelectorAll("#img_preview");
+    const $buttons: NodeListOf<HTMLElement> = document.querySelectorAll('[data-select="img_preview"]');
     
     function show(id: string, activedIndex: number) {
       const $slider: NodeListOf<HTMLDivElement> | null  = document.querySelectorAll(`[data-open='${id}'] #slide`);
