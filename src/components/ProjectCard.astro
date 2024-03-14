@@ -10,19 +10,19 @@ interface Props extends Project {};
 const { data_open, page_link, github_link, title, desc, img_paths, tecnologies } = Astro.props;
 ---
 
-<article class="flex flex-col border border-slate-800 space-y-1 px-5 py-3 rounded-md w-full">
+<article class="flex flex-col border border-slate-800 space-y-1 px-5 py-3 rounded-md w-full backdrop-brightness-200   backdrop-saturate-200 backdrop-contrast-200">
   <div class="flex justify-between">
-    <a href={page_link} target="_blank"  class="text-xl font-semibold">
-      <h2>
+    <a href={page_link} target="_blank"  class="text-xl font-semibold hover:underline ">
+      <h2 >
         {title}
         <span></span>
       </h2>
     </a>
-    <div class="flex items-end space-x-2">
+    <div class="flex items-center space-x-4">
 
       <ImagePreview data_open={data_open} paths={img_paths}/>
       
-      <a href={github_link} aria-label="Github repository" target="_blank" class="flex items-center"><Github size={18} /></a>
+      <a href={github_link} aria-label="Github repository" target="_blank" class="flex items-center hover:scale-110 transition-transform"><Github size={22} /></a>
     </div>
   </div>
   <p class="text-sm ml-2 py-2">
