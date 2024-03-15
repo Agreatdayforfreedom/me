@@ -47,13 +47,17 @@ const { title } = Astro.props;
     animation: fade-in-up 1s forwards;
   }
 
-  .fade-in-up-delay {
+  .delay-02 {
     animation-delay: .2s;
+  }
+
+  .delay-03{
+    animation-delay: .3s;
   }
   @keyframes fade-in-up {
     from {
       opacity: 0;
-      transform: translateY(40px);
+      transform: translateY(20px);
     }
     to {
       opacity: 1;
