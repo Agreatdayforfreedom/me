@@ -1,17 +1,20 @@
 ---
 import Github from './svg/Github.astro'
+import Linkedin from './svg/Linkedin.astro'
 ---
 
 
 <nav>
     <ul class="flex items-center space-x-2 h-full">
-        <li>
-            <a href="/projects" class="text-slate-300 font-bold ">Projects</a>
-        </li>
         <li> 
-            <a href="https://github.com/Agreatdayforfreedom" aria-label="Github profile" target="_blank">
-                <Github />
-            </a>   
+          <a href="https://github.com/Agreatdayforfreedom" aria-label="Github profile" target="_blank">
+              <Github size={20}/>
+          </a>   
+        </li>
+        <li>
+          <a href="http://linkedin.com/in/matias-bertoni-709248274" target="_blank" aria-label="Linkedin profile" target="_blank">
+            <Linkedin />
+          </a> 
         </li>
     </ul>
 </nav>
