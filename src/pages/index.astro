@@ -1,7 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ProjectCard from "../components/ProjectCard.astro";
-import type { Project } from "../types";
 import React from "../components/svg/React.astro";
 import Next from "../components/svg/Next.astro";
 import Typescript from '../components/svg/Typescript.astro';
@@ -17,76 +16,8 @@ import Tailwind from '../components/svg/Tailwind.astro';
 import Docker from '../components/svg/Docker.astro';
 import Redux from "../components/svg/Redux.astro";
 import Rust from "../components/svg/Rust.astro";
-const projects: Project[] = [
-  {
-    data_open: crypto.randomUUID(), 
-    desc: "Nextjs Reddit clone",
-    title: "Red.dot",
-    github_link: "https://github.com/Agreatdayforfreedom/Red.dot---Next.js-Reddit-Clone-",
-    page_link: "https://reddot-roan.vercel.app/",
-    img_paths: ["/home.avif"],
-    tecnologies: [
-      { content: "Next.js", color: "#374151" },
-      { content: "Postgresql", color: "#008bb9" },
-      { content: "Typescript", color: "#3178c6" },
-      {content: "Auth.js", color: "#b814ad"}
-    ],
-  },
-  {
-    data_open: crypto.randomUUID(), 
-    title: "Library",
-    desc: "E-commerce of books",
-    github_link: "https://github.com/Agreatdayforfreedom/react-nestjs-ecommerce",
-    page_link: "https://github.com/Agreatdayforfreedom/react-nestjs-ecommerce",
-    img_paths: ["/library1.avif", "/library2.avif"],
-    tecnologies: [
-      { content: "React", color: "#04d8f9" },
-      { content: "Postgresql", color: "#008bb9" },
-      { content: "Nest.js", color: "#E0234E" },
-      { content: "Typescript", color: "#3178c6" },
-    ],
-  },
-  {
-    data_open: crypto.randomUUID(), 
-    title: "Image to ASCII",
-    desc: "Convert bmp images to ascii art",
-    github_link: "https://github.com/Agreatdayforfreedom/image-to-ascii",
-    page_link: "https://github.com/Agreatdayforfreedom/image-to-ascii",
-    img_paths: ["/girl.avif", "/bulm.avif"],
-    tecnologies: [
-      { content: "C", color: "#374151" },
-    ],
-  },
-  {
-    data_open: crypto.randomUUID(), 
-    title: "Heapoverflow",
-    desc: "Stackoverflow clone with MERN stack",
-    github_link: "https://github.com/Agreatdayforfreedom/stackoverflow-mern-clone",
-    page_link: "https://stackoverflow-mern-clone.vercel.app/",
-    img_paths: ["/heapoverflow1.avif", "/heapoverflow2.avif"],
-    tecnologies: [
-      {content: "Node.js", color: "#83BA63"},
-      { content: "Typescript", color: "#3178c6" },
-      {content: "Mongodb", color: "#00ED64"},
-      {content: "Redux", color: "#764ABC"},
-      {content: "React.js", color: "#04d8f9"},
-    ]
-  },
-  {
-    data_open: crypto.randomUUID(), 
-    title: "TaskBoard",
-    desc: "Beautiful Trello clone with Nextjs, Postgresql and stripe",
-    github_link: "https://github.com/Agreatdayforfreedom/trello-clone",
-    page_link: "https://trello-clone-psi-nine.vercel.app/sign-in?mode=test",
-    img_paths: ["/trello1.avif", "/trello2.avif"],
-    tecnologies: [
-      { content: "Next.js", color: "#374151" },
-      { content: "Postgresql", color: "#008bb9" },
-      { content: "Typescript", color: "#3178c6" },
-      { content: "Clerk", color: "#562ABC" },
-    ]
-  }
-];
+import { projects } from "../data";
+
 ---
 
 <Layout title="Matias Bertoni">
@@ -114,7 +45,7 @@ const projects: Project[] = [
             <h2 class="text-2xl text-white">Projects</h2>
             <div class="mt-4 grid gap-y-2 sm:grid-cols-2 sm:gap-x-2 lg:grid-cols-3">
               {
-                projects.map((p) => (
+                projects.slice(0,6).map((p) => (
                   <ProjectCard
                     data_open={p.data_open}
                     desc={p.desc}

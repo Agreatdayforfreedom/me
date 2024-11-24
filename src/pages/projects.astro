@@ -1,0 +1,56 @@
+---
+import ProjectCard from "../components/ProjectCard.astro";
+import { projects } from "../data";
+import Layout from "../layouts/Layout.astro";
+import Search from "../components/Search.astro";
+
+
+---
+
+<Layout title="Projects - Matias Bertoni">
+  <main class="z-10 bg-transparent relative">
+    <div class="max-w-[90%] md:max-w-[75%] mx-auto mt-5">
+      <Search />
+      <div id="projects-container" class="space-y-5 mt-5">
+        {projects.map(p => (
+          <ProjectCard
+          data_open={p.data_open}
+          desc={p.desc}
+          title={p.title}
+          github_link={p.github_link}
+          img_paths={p.img_paths}
+          page_link={p.page_link}
+          tecnologies={p.tecnologies}
+          />
+        ))}
+      </div>
+    </div>
+  </main>
+  <script>
+    const $searchInput: HTMLInputElement | null = document.querySelector("#search-input");
+    
+    window.onload = function () {
+
+      if ($searchInput) {
+        filterProjects($searchInput.value);   //TODO! avoid flash 
+      }
+      
+      $searchInput?.addEventListener("input", function (_) {
+        filterProjects(this.value);
+      });
+    }
+
+
+    function filterProjects(value: string) {
+      //filter by tecnology
+      const $projectsOnScreen = document.querySelectorAll("#project") as NodeListOf<HTMLElement>;
+      $projectsOnScreen.forEach((p) => {
+        const match = p.getAttribute("data-filters")?.split(',').some((t:string) => 
+        t.toLowerCase().includes(value.toLowerCase()))
+        if (match) p.style.display = "block"
+        else p.style.display = "none";
+      })        
+    }
+
+  </script>
+</Layout>

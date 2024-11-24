@@ -10,7 +10,7 @@ interface Props extends Project {};
 const { data_open, page_link, github_link, title, desc, img_paths, tecnologies } = Astro.props;
 ---
 
-<article class="flex flex-col border border-slate-800 space-y-1 px-5 py-3 rounded-md w-full backdrop-brightness-200   backdrop-saturate-200 backdrop-contrast-200">
+<article id="project" data-filters={[...tecnologies.map(t => t.content)]} class="flex flex-col border border-slate-800 space-y-1 px-5 py-3 rounded-md w-full backdrop-brightness-200   backdrop-saturate-200 backdrop-contrast-200">
   <div class="flex justify-between">
     <a href={page_link} target="_blank" class="text-xl font-semibold hover:underline ">
       <h2 >
