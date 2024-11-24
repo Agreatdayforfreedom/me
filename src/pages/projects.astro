@@ -9,8 +9,11 @@ import Search from "../components/Search.astro";
 
 <Layout title="Projects - Matias Bertoni">
   <main class="z-10 bg-transparent relative">
-    <div class="max-w-[90%] md:max-w-[75%] mx-auto mt-5">
+    <div class="max-w-[90%] md:max-w-[75%] mx-auto mt-10">
       <Search />
+      <div class="fade-in-up delay-005 mt-5 text-gray-300 text-sm font-semibold">
+        {projects.length} Projects
+      </div>
       <div id="projects-container" class="space-y-5 mt-5">
         {projects.map(p => (
           <ProjectCard
@@ -21,6 +24,7 @@ import Search from "../components/Search.astro";
           img_paths={p.img_paths}
           page_link={p.page_link}
           tecnologies={p.tecnologies}
+          class="fade-in-up transition-all"
           />
         ))}
       </div>
@@ -46,8 +50,12 @@ import Search from "../components/Search.astro";
       const $projectsOnScreen = document.querySelectorAll("#project") as NodeListOf<HTMLElement>;
       $projectsOnScreen.forEach((p) => {
         const match = p.getAttribute("data-filters")?.split(',').some((t:string) => 
-        t.toLowerCase().includes(value.toLowerCase()))
-        if (match) p.style.display = "block"
+        t.toLowerCase().includes(value.toLowerCase().trim()))
+        if (match) { p.style.display = "block";
+        p.classList.replace("fade-in-up", "fade-in-up") 
+        p.classList.replace("delay-02", "delay-02")
+      }
+
         else p.style.display = "none";
       })        
     }

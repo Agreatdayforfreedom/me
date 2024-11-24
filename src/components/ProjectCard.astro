@@ -3,14 +3,16 @@ import type { Project } from '../types';
 import Bagde from './Bagde.astro'
 import ImagePreview from './ImagePreview.astro'
 import Github from './svg/Github.astro';
-interface Props extends Project {};
+interface Props extends Project {
+  class?: string,
+};
 
 
 
-const { data_open, page_link, github_link, title, desc, img_paths, tecnologies } = Astro.props;
+const { data_open, page_link, github_link, title, desc, img_paths, tecnologies, class: className } = Astro.props;
 ---
 
-<article id="project" data-filters={[...tecnologies.map(t => t.content)]} class="flex flex-col border border-slate-800 space-y-1 px-5 py-3 rounded-md w-full backdrop-brightness-200   backdrop-saturate-200 backdrop-contrast-200">
+<article id="project" data-filters={[...tecnologies.map(t => t.content), title]} class:list={["flex flex-col border border-slate-800 space-y-1 px-5 py-3 rounded-md w-full backdrop-brightness-200  backdrop-saturate-200 backdrop-contrast-200", className]}>
   <div class="flex justify-between">
     <a href={page_link} target="_blank" class="text-xl font-semibold hover:underline ">
       <h2 >
