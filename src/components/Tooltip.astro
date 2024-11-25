@@ -1,0 +1,61 @@
+---
+
+interface Props {
+  content: string;
+}
+
+const { content } = Astro.props;
+
+---
+
+<div data-open="tooltip" class="relative flex justify-center cursor-pointer">
+  <div  id={content} class="absolute hidden -bottom-3.5">
+    <div class=" text-sm text-nowrap font-bold h-4">{content}</div>
+  </div>
+  <slot/>
+</div>
+
+<script>
+  const $tooltip_triggers: NodeListOf<HTMLDivElement> | null = document.querySelectorAll("[data-open='tooltip']")
+
+  for (const $tooltip_trigger of $tooltip_triggers) 
+  if($tooltip_trigger) {
+    $tooltip_trigger.addEventListener("mouseenter", function(ev) {
+      if (this.firstElementChild) {
+        const ref = this.firstElementChild as HTMLDivElement;
+        if(ref.classList.contains("fade-in-down")) {
+          ref.classList.remove("fade-in-down");
+        }
+        ref.classList.add("fade-in-up");
+        ref.style.display = "block" 
+
+        ref.addEventListener("animationend", function handler(e) {
+          if(e.animationName === "fade-in-up") {
+              ref.classList.remove("fade-in-up");
+          }
+        }, {once: true})
+      }
+    })
+    $tooltip_trigger.addEventListener("mouseleave", function handler(ev) {
+      if (this.firstElementChild) {
+        const ref = this.firstElementChild as HTMLDivElement;
+          
+        if(!ref.classList.contains("fade-in-up") && !ref.classList.contains("fade-in-down")) {
+          // added here too because the animationend is never reached if the fade-in-up ends after mouseleave is triggered 
+          ref.classList.add("fade-in-down"); 
+        }
+        ref.addEventListener("animationend", function handler(e) {
+          if(e.animationName === "fade-in-up") {
+              ref.classList.remove("fade-in-up");
+              ref.classList.add("fade-in-down");
+          }
+          if (e.animationName === "fade-in-down") {
+            ref.style.display = "none";
+          }
+          ref.removeEventListener("animationend", handler); 
+        });
+      }
+
+    })
+  }
+</script>

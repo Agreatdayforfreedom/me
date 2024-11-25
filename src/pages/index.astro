@@ -19,6 +19,7 @@ import Rust from "../components/svg/Rust.astro";
 import { projects } from "../data";
 import ArrowLeft from "../components/svg/ArrowLeft.astro";
 import ArrowRight from "../components/svg/ArrowRight.astro";
+import Tooltip from "../components/Tooltip.astro";
 
 ---
 
@@ -70,21 +71,51 @@ import ArrowRight from "../components/svg/ArrowRight.astro";
           <section>
             <h2 class="text-2xl text-white">Tecnologies</h2>
             <div class="flex flex-wrap gap-2 mt-4">
+              <Tooltip content="React">
                 <React />
-                <Next />
-                <Typescript />
-                <Javascript />
-                <Node />
-                <Nest />
-                <C />
-                <Rust />
-                <IAstro/>
-                <Redux />
-                <Postgresql/>
-                <Redis />
-                <Git />
-                <Tailwind />
-                <Docker />
+              </Tooltip>
+                <Tooltip content="Next.js">
+                  <Next />
+                </Tooltip>
+                  <Tooltip content="Typescript">
+                    <Typescript />
+                  </Tooltip>
+                  <Tooltip content="Javascript">
+                    <Javascript />
+                  </Tooltip>
+                  <Tooltip content="Node">
+                    <Node />
+                  </Tooltip>
+                  <Tooltip content="Nest">
+                    <Nest />
+                  </Tooltip>
+                  <Tooltip content="C">
+                    <C />
+                  </Tooltip>
+                  <Tooltip content="Rust">
+                    <Rust />
+                  </Tooltip>
+                  <Tooltip content="Astro">
+                    <IAstro/>
+                  </Tooltip>
+                  <Tooltip content="Redux">
+                    <Redux />
+                  </Tooltip>
+                  <Tooltip content="PostgreSQL">
+                    <Postgresql/>
+                  </Tooltip>
+                  <Tooltip content="Redis">
+                    <Redis />
+                  </Tooltip>
+                  <Tooltip content="Git">
+                    <Git />
+                  </Tooltip>
+                  <Tooltip content="Tailwind">
+                    <Tailwind />
+                  </Tooltip>
+                  <Tooltip content="Docker">
+                    <Docker />
+                  </Tooltip>
             </div>
           </section>
         </div>
