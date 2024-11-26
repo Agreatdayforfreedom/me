@@ -25,7 +25,7 @@ import Tooltip from "../components/Tooltip.astro";
 
 <Layout title="Matias Bertoni">
   <main class="relative mt-8 z-10 w-full bg-transparent flex justify-center">
-    <div class="max-w-[75%] flex">
+    <div class="max-w-[90%] sm:max-w-[75%] flex">
       <div class="w-full">
         <div class="space-y-20">
           <section class="text-[#b8b8b8] space-y-2">
@@ -70,51 +70,98 @@ import Tooltip from "../components/Tooltip.astro";
           </section>
           <section>
             <h2 class="text-2xl text-white">Tecnologies</h2>
-            <div class="flex flex-wrap gap-8 mt-4">
+            <div class="flex flex-wrap gap-10 sm:gap-8 mt-4 justify-center">
               <Tooltip content="React">
-                <React />
+                <div class="flex flex-col items-center">
+                  <React />
+                  <span class="text-sm text-nowrap font-bold sm:hidden">React</span>
+                </div>
               </Tooltip>
               <Tooltip content="Next.js">
-                <Next />
+                <div class="flex flex-col items-center">
+                  <Next />
+                  <span class="text-sm text-nowrap font-bold sm:hidden">Next.js</span>
+                </div>
               </Tooltip>
               <Tooltip content="Typescript">
-                <Typescript />
+                <div class="flex flex-col items-center">
+                  <Typescript />
+                  <span class="text-sm text-nowrap font-bold sm:hidden">Typescript</span>
+                </div>
               </Tooltip>
               <Tooltip content="Javascript">
-                <Javascript />
+                <div class="flex flex-col items-center">
+                  <Javascript />
+                  <span class="text-sm text-nowrap font-bold sm:hidden">Javascript</span>
+                </div>
               </Tooltip>
               <Tooltip content="Node">
-                <Node />
+                <div class="flex flex-col items-center">
+                  <Node />
+                  <span class="text-sm text-nowrap font-bold sm:hidden">Node</span>
+                </div>
               </Tooltip>
               <Tooltip content="Nest">
-                <Nest />
+                
+                <div class="flex flex-col items-center">
+                  <Nest />
+                  <span class="text-sm text-nowrap font-bold sm:hidden">Nest</span>
+                </div>
               </Tooltip>
               <Tooltip content="PostgreSQL">
+                <div class="flex flex-col items-center">
                 <Postgresql/>
+                  <span class="text-sm text-nowrap font-bold sm:hidden">PostgreSQL</span>
+                </div>
               </Tooltip>
               <Tooltip content="C">
-                <C />
+                <div class="flex flex-col items-center">
+                  <C />
+                  <span class="text-sm text-nowrap font-bold sm:hidden">C</span>
+                </div>
               </Tooltip>
               <Tooltip content="Rust">
-                <Rust />
+                <div class="flex flex-col items-center">
+                  <Rust />
+                  <span class="text-sm text-nowrap font-bold sm:hidden">Rust</span>
+                </div>
               </Tooltip>
               <Tooltip content="Astro">
-                <IAstro/>
+                <div class="flex flex-col items-center">
+                  <IAstro/>
+                  <span class="text-sm text-nowrap font-bold sm:hidden">Astro</span>
+                </div>
               </Tooltip>
               <Tooltip content="Redux">
-                <Redux />
+                
+                <div class="flex flex-col items-center">
+                  <Redux />
+                  <span class="text-sm text-nowrap font-bold sm:hidden">Redux</span>
+                </div>
               </Tooltip>
               <Tooltip content="Redis">
-                <Redis />
+                <div class="flex flex-col items-center">
+                  <Redis />
+                  <span class="text-sm text-nowrap font-bold sm:hidden">Redis</span>
+                </div>
               </Tooltip>
               <Tooltip content="Git">
-                <Git />
+                <div class="flex flex-col items-center">
+                  <Git />
+                  <span class="text-sm text-nowrap font-bold sm:hidden">Git</span>
+                </div>
               </Tooltip>
               <Tooltip content="Tailwind">
-                <Tailwind />
+                <div class="flex flex-col items-center">
+                  <Tailwind />
+                  <span class="text-sm text-nowrap font-bold sm:hidden">Tailwind</span>
+                </div>
               </Tooltip>
               <Tooltip content="Docker">
-                <Docker />
+                <div class="flex flex-col items-center">
+                  <Docker />
+                  <span class="text-sm text-nowrap font-bold sm:hidden">Docker</span>
+                </div>
               </Tooltip>
             </div>
           </section>

@@ -17,10 +17,16 @@ const { content } = Astro.props;
 
 <script>
   const $tooltip_triggers: NodeListOf<HTMLDivElement> | null = document.querySelectorAll("[data-open='tooltip']")
-
-  for (const $tooltip_trigger of $tooltip_triggers) 
-  if($tooltip_trigger) {
-    $tooltip_trigger.addEventListener("mouseenter", function(ev) {
+    let width = Math.max(
+  document.body.scrollWidth, document.documentElement.scrollWidth,
+  document.body.offsetWidth, document.documentElement.offsetWidth,
+  document.body.clientWidth, document.documentElement.clientWidth
+);
+for (const $tooltip_trigger of $tooltip_triggers) {
+  
+  $tooltip_trigger.addEventListener("mouseenter", function(ev) {
+    if($tooltip_trigger && window.innerWidth >= 640) {
+      console.log(window.innerWidth, document.documentElement.scrollWidth);
       if (this.firstElementChild) {
         const ref = this.firstElementChild as HTMLDivElement;
         if(ref.classList.contains("fade-in-down")) {
@@ -34,9 +40,10 @@ const { content } = Astro.props;
               ref.classList.remove("fade-in-up");
           }
         }, {once: true})
-      }
+      }}
     })
     $tooltip_trigger.addEventListener("mouseleave", function handler(ev) {
+  if($tooltip_trigger && window.innerWidth >= 640) {
       if (this.firstElementChild) {
         const ref = this.firstElementChild as HTMLDivElement;
           
@@ -55,7 +62,7 @@ const { content } = Astro.props;
           ref.removeEventListener("animationend", handler); 
         });
       }
-
+    }
     })
   }
 </script>
