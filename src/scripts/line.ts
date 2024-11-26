@@ -28,33 +28,39 @@ const strategy: Strategy = {
   },
 };
 
-export function spawnFoliumOfDescartes(w: number, h: number): Line {
-  const a = Math.floor(Math.random() * (150 - 50) + 50);
+export function spawnFoliumOfDescartes(
+  w: number,
+  h: number,
+  posx: number,
+  posy: number
+): Line {
+  const a = Math.floor(Math.random() * (200 - 100) + 100);
   const t = -5;
-  const initialX = Math.floor(Math.random() * w);
-  const initialY = Math.floor(Math.random() * h);
+  const initialX = posx;
+  const initialY = posy;
   const x = initialX + (3 * a * t) / (1 + Math.pow(t, 3));
   const y = initialY + (3 * a * Math.pow(t, 2)) / (1 + Math.pow(t, 3));
   const color = options.color.replace(
     "hue",
     Math.floor(Math.random() * 360).toString()
+    // "180"
   );
 
   let dfx = 1;
   let dfy = 1;
 
-  // bottom
+  // // bottom
   if (initialX + a > w) dfx = -1;
   // top
   else if (initialX - a < 0) dfx = 1;
-  // pick random direction
-  else dfx = Math.random() < 0.5 ? 1 : -1;
-  // right
+  // // pick random direction
+  // else dfx = Math.random() < 0.5 ? 1 : -1;
+  // // right
   if (initialY + a > h) dfy = -1;
   //left
   else if (initialY - a < 0) dfy = 1;
-  // same
-  else dfy = Math.random() < 0.5 ? 1 : -1;
+  // // same
+  // else dfy = Math.random() < 0.5 ? 1 : -1;
 
   let line: Line = {
     x,

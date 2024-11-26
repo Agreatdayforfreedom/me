@@ -17,16 +17,11 @@ const { content } = Astro.props;
 
 <script>
   const $tooltip_triggers: NodeListOf<HTMLDivElement> | null = document.querySelectorAll("[data-open='tooltip']")
-    let width = Math.max(
-  document.body.scrollWidth, document.documentElement.scrollWidth,
-  document.body.offsetWidth, document.documentElement.offsetWidth,
-  document.body.clientWidth, document.documentElement.clientWidth
-);
-for (const $tooltip_trigger of $tooltip_triggers) {
+   
+  for (const $tooltip_trigger of $tooltip_triggers) {
   
   $tooltip_trigger.addEventListener("mouseenter", function(ev) {
     if($tooltip_trigger && window.innerWidth >= 640) {
-      console.log(window.innerWidth, document.documentElement.scrollWidth);
       if (this.firstElementChild) {
         const ref = this.firstElementChild as HTMLDivElement;
         if(ref.classList.contains("fade-in-down")) {
@@ -48,7 +43,7 @@ for (const $tooltip_trigger of $tooltip_triggers) {
         const ref = this.firstElementChild as HTMLDivElement;
           
         if(!ref.classList.contains("fade-in-up") && !ref.classList.contains("fade-in-down")) {
-          // added here too because the animationend is never reached if the fade-in-up ends after mouseleave is triggered 
+          // added here too because the animationend is never reached if the fade-in-up class ends before mouseleave is triggered 
           ref.classList.add("fade-in-down"); 
         }
         ref.addEventListener("animationend", function handler(e) {

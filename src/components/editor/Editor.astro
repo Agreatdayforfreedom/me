@@ -1,0 +1,55 @@
+---
+---
+
+<div class="fixed bottom-0 group right-0 w-10 h-10 z-10 bg-black/40 ">
+  <div class="flex-col group-hover:flex group-hover:translate-x-0 sm:translate-x-12 transition-all w-fit">
+    <input id="alp-input-editor" class="cursor-pointer" type="checkbox" checked={false}>
+  </div>
+</div>
+
+<style>
+  :root {
+	 --form-control-color: rgb(135, 201, 255);
+	 --form-control-disabled: #959495;
+  }
+  
+  input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: var(--form-background);
+    margin: 0;
+    font: inherit;
+    color: currentColor;
+    width: 1.15em;
+    height: 1.15em;
+    border: 0.15em solid currentColor;
+    border-radius: 0.15em;
+    transform: translateY(-0.075em);
+    display: grid;
+    place-content: center;
+  }
+  input[type="checkbox"]::before {
+    content: "";
+    width: 0.65em;
+    height: 0.65em;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+    transform: scale(0);
+    transform-origin: bottom left;
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em var(--form-control-color);
+    /* Windows High Contrast Mode */
+    background-color: CanvasText;
+  }
+  input[type="checkbox"]:checked::before {
+    transform: scale(1);
+  }
+  input[type="checkbox"]:focus {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+  input[type="checkbox"]:disabled {
+    --form-control-color: var(--form-control-disabled);
+    color: var(--form-control-disabled);
+    cursor: not-allowed;
+  }
+</style>
