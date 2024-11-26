@@ -2,6 +2,7 @@ import type { Direction, Line, Positions } from "../types";
 import { config } from "./configuration";
 import { die, spawn, spawnFoliumOfDescartes, spawnRandomly } from "./line";
 import { options as opt } from "./options";
+import { smoothOscillation } from "./utils";
 
 let canvas = document.querySelector("canvas");
 let ctx = canvas?.getContext("2d");
@@ -74,9 +75,17 @@ function loop(time: number) {
       const n = Math.floor(Math.random() * 5);
       const posx = Math.floor(Math.random() * canvas.width);
       const posy = Math.floor(Math.random() * canvas.height);
+      let rotation = Math.floor(Math.random() * 360);
+
       for (let i = 0; i < n; i++) {
+        const max = rotation + 15;
+        const min = rotation - 15;
+        const color = options.color.replace(
+          "hue",
+          Math.floor(Math.random() * (max - min) + min).toString()
+        );
         lines.push(
-          spawnFoliumOfDescartes(canvas.width, canvas.height, posx, posy)
+          spawnFoliumOfDescartes(canvas.width, canvas.height, posx, posy, color)
         );
       }
     }
@@ -108,6 +117,10 @@ function loop(time: number) {
           } else if (line.direction === "down") {
             line.y += line.dv;
           }
+
+          ctx.fillStyle = ctx.shadowColor = line.color
+            .replace("saturation", "100")
+            .replace("lightness", smoothOscillation(time, 25, 12.5).toString());
         } else if ("counter" in line.strategy) {
           // sin
           if (line.direction === "left") {
@@ -132,6 +145,10 @@ function loop(time: number) {
             line.y += line.dv;
           }
           line.strategy.counter += line.strategy.increase;
+
+          ctx.fillStyle = ctx.shadowColor = line.color
+            .replace("saturation", "100")
+            .replace("lightness", smoothOscillation(time, 25, 12.5).toString());
         } else if ("t" in line.strategy) {
           line.strategy.inc = Math.abs(Math.cos(line.strategy.lifetime));
           line.strategy.lifetime += 0.01;
@@ -148,15 +165,15 @@ function loop(time: number) {
               Math.pow(line.strategy.t, 2)) /
               (1 + Math.pow(line.strategy.t, 3));
           line.strategy.t += line.strategy.inc;
+
+          ctx.fillStyle = ctx.shadowColor = line.color
+            .replace("saturation", "100")
+            .replace("lightness", "50");
         }
       }
 
-    ctx.fillStyle = ctx.shadowColor = line.color.replace(
-      "lightness",
-      (Math.abs(Math.sin(time / 1000)) * 30 + 30).toString()
-    );
-    ctx.shadowBlur = Math.random() * options.shadowMultiplier;
     ctx.fillRect(line.x, line.y, 2, 2);
+    ctx.shadowBlur = Math.random() * options.shadowMultiplier;
 
     die(line);
   }

@@ -6,5 +6,5 @@ export const options = {
   spawnTime: 7500,
   backgroundAlpha: 0.065,
   shadowMultiplier: 3.5,
-  color: "hsl(hue,100%,lightness%)",
+  color: "hsl(hue,saturation%,lightness%)",
 };

@@ -7,7 +7,7 @@ export const config = (options: typeof opt) => {
     alp.checked = false;
     alp.addEventListener("input", function f(e) {
       if (this.checked) {
-        options.backgroundAlpha = 0.008;
+        options.backgroundAlpha = 0.014;
         options.spawnTime = 100;
       } else {
         options.backgroundAlpha = opt.backgroundAlpha;
