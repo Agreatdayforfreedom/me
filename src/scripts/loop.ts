@@ -105,6 +105,7 @@ function loop(time: number) {
   ctx.restore();
 
   for (const line of lines) {
+    //FIXME
     if (!line.died)
       if (line.strategy) {
         if ("dx" in line.strategy) {
