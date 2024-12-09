@@ -1,0 +1,96 @@
+---
+
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Particle system</title>
+    <style>
+      body {
+        background-color: black;
+
+      }
+      .loading_screen {
+        width: 100%;
+        height: 100vh;
+        align-items: center;
+        justify-content: center;
+        background-color: black;
+        display: none;
+      }
+      .loading_screen > span {
+        color:white;
+        font-size: 28px;
+        font-weight: 700;
+      }
+      canvas {
+        background-color: black;
+        
+      }
+    </style>
+  </head>
+
+  <body id="main">
+    <div class="loading_screen" id="unsupp_gpu"><span>Webgpu is not supported in your browser.</span></div>
+    <div class="loading_screen" id="loading"><span>Loading wasm...</span></div>
+    <script>
+      import init from "../../public/wasm/particle_system.js";
+      const v = await support_webgpu();
+      console.log({v})
+      if (!v) {
+        const unsupp_gpu: HTMLDivElement | null = document.querySelector("#unsupp_gpu")
+        if (unsupp_gpu) {
+          unsupp_gpu.style.display = "flex"
+        }
+      } else {
+        const loading: HTMLDivElement | null = document.querySelector("#loading");
+        if(loading) {
+          loading.style.display = "flex";
+        }
+
+        init()
+        .then(() => {
+          console.log("WASM Loaded");
+          const loading: HTMLDivElement | null = document.querySelector("#loading");
+          if(loading) {
+          loading.style.display = "none";
+        }
+          
+          const canvas = document.querySelector("canvas")
+          if (canvas) {
+            window.addEventListener("resize", () => {
+              canvas.width = window.innerWidth;
+              canvas.height = window.innerHeight;
+            })
+          }
+        })
+        .catch((e) => {
+          console.error("panic:", e);
+        });
+      }
+
+
+        async function support_webgpu() {
+          // @ts-ignore
+          if (!navigator.gpu) {
+            return false
+          }
+
+          try {
+            // @ts-ignore
+            const adapter = await navigator.gpu.requestAdapter();
+            if (!adapter) {
+              return false
+            }
+          } catch (error) {
+            return false
+          }
+
+          return true;
+        }
+    </script>
+  </body>
+</html>
