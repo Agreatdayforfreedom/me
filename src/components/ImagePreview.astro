@@ -16,12 +16,12 @@ const { paths, data_open } = Astro.props;
 
 <div class="w-[18px] h-[18px]">
   <button data-select="img_preview" data-id={data_open} aria-label="preview-imagen-button"><Image size={22}/></button>
-  <dialog class="max-w-full md:max-w-[700px] max-h-auto bg-transparent" data-open={data_open}>
+  <dialog class="max-w-screen max-h-screen bg-transparent overflow-hidden" data-open={data_open}>
     <div class="expand">
       {paths.map((path:string) => (
-        <div id="slide">
-          <img src={path} />
-          </div>
+        <div id="slide" class="">
+          <img src={path} class="max-w-full sm:max-w-[90%] max-h-[calc(100vh_-_86px)] object-contain mx-auto aspect-auto" />
+        </div>
       ))}
     </div>
       
