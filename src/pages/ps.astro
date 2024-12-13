@@ -33,13 +33,12 @@
     </style>
   </head>
 
-  <body id="main">
+  <div id="main">
     <div class="loading_screen" id="unsupp_gpu"><span>Webgpu is not supported in your browser.</span></div>
     <div class="loading_screen" id="loading"><span>Loading wasm...</span></div>
     <script>
       import init from "../../public/wasm/particle_system.js";
       const v = await support_webgpu();
-      console.log({v})
       if (!v) {
         const unsupp_gpu: HTMLDivElement | null = document.querySelector("#unsupp_gpu")
         if (unsupp_gpu) {
@@ -92,5 +91,5 @@
           return true;
         }
     </script>
-  </body>
+  </div>
 </html>

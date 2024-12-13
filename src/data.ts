@@ -68,10 +68,22 @@ export const projects: Project[] = [
     desc: "A Tailwind palette generator ",
     github_link: "https://github.com/Agreatdayforfreedom/dye",
     page_link: "https://dye-1g1t.vercel.app/",
-    img_paths: [],
+    img_paths: ["/dye.avif"],
     tecnologies: [
       { content: "Next.js", color: "#374151" },
       { content: "Zustand", color: "#413e38" },
+    ],
+  },
+  {
+    data_open: crypto.randomUUID(),
+    title: "Particle System",
+    desc: "GPU accelerated particle system",
+    github_link: "https://github.com/Agreatdayforfreedom/particle_system",
+    page_link: "/ps",
+    img_paths: ["/ps1.png"],
+    tecnologies: [
+      { content: "Rust", color: "#B7410E" },
+      { content: "Wgpu", color: "#004891" },
     ],
   },
   {
@@ -87,18 +99,7 @@ export const projects: Project[] = [
       { content: "Wgpu", color: "#004891" },
     ],
   },
-  {
-    data_open: crypto.randomUUID(),
-    title: "Particle System",
-    desc: "GPU acceletared particle system",
-    github_link: "https://github.com/Agreatdayforfreedom/particle_system",
-    page_link: "https://github.com/Agreatdayforfreedom/particle_system",
-    img_paths: [],
-    tecnologies: [
-      { content: "Rust", color: "#B7410E" },
-      { content: "Wgpu", color: "#004891" },
-    ],
-  },
+
   {
     data_open: crypto.randomUUID(),
     title: "Image to ASCII",

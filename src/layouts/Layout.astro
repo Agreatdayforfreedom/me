@@ -22,7 +22,7 @@ const { title } = Astro.props;
 	<body>
 		<Header></Header>
 		<slot />
-		<canvas></canvas>
+		<canvas id="js-canvas"></canvas>
     <Footer />
     <Editor />
 		<script src="../scripts/loop.ts"></script>
@@ -46,7 +46,6 @@ const { title } = Astro.props;
 		top: 0;
 		left: 0;
 	}
-	
 
   .fade-in-up {
     opacity: 0;
