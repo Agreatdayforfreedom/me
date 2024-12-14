@@ -1,13 +1,17 @@
-import type { Direction, Line, Positions } from "../types";
+import type { Direction, Line, Positions, StrategyLayout } from "../types";
 import { config } from "./configuration";
-import { die, spawn, spawnFoliumOfDescartes, spawnRandomly } from "./line";
+import { type __Line } from "./lines/line";
+import { Folium } from "./lines/folium";
+import { Straight } from "./lines/straight";
+import { Wave } from "./lines/wave";
 import { options as opt } from "./options";
 import { smoothOscillation } from "./utils";
+import { spawnRandomly, strategy_layout } from "./spawner";
 
 let canvas = document.querySelector("canvas");
 let ctx = canvas?.getContext("2d");
 
-let lines: Line[] = [];
+let lines: __Line[] = [];
 let positions: Positions = { col: [], row: [] };
 let fps = 0;
 let last = 0;
@@ -23,33 +27,22 @@ function drawCanvas() {
   canvas.height = window.innerHeight;
   canvas.style.background = "#000";
   if (ctx) {
-    //horizontal position
+    //initialize possible horizontal positions
     for (
       let x = options.margin;
       x <= canvas.width - options.margin;
       x += options.gap
     ) {
-      let direction: Direction =
-        Math.random() < options.probabilityDirection ? "up" : "down";
       positions.col.push({ x, y: 0 });
-      if (Math.random() < options.probabilityOfArising) {
-        lines.push(spawn("col", direction, x, 0, canvas.width, canvas.height));
-      }
     }
 
-    // vertical position
+    //initialize possible vertical positions
     for (
       let y = options.margin;
       y <= canvas.height - options.margin;
       y += options.gap
     ) {
-      let direction: Direction =
-        Math.random() < options.probabilityDirection ? "left" : "right";
       positions.row.push({ x: 0, y });
-
-      if (Math.random() < options.probabilityOfArising) {
-        lines.push(spawn("row", direction, 0, y, canvas.width, canvas.height));
-      }
     }
 
     requestAnimationFrame(loop);
@@ -61,37 +54,24 @@ function loop(time: number) {
   ref = window.requestAnimationFrame(loop);
   if (!ctx || !canvas) return;
 
-  //fps
+  // TIME
   let delteTime = (performance.now() - lastCalledTime) / 1000;
   lastCalledTime = performance.now();
   fps = 1 / delteTime;
-  lines = lines.filter((l) => l.died !== true);
 
+  //TODO
+  lines = lines.filter((l) => l.died !== true);
+  // SPAWN LINES
   if (!last || (time - last >= options.spawnTime && focused)) {
     last = time;
-    if (Math.random() < 0.5) {
-      spawnRandomly(positions, lines, canvas.width, canvas.height);
-    } else {
-      const n = Math.floor(Math.random() * 5);
-      const posx = Math.floor(Math.random() * canvas.width);
-      const posy = Math.floor(Math.random() * canvas.height);
-      let rotation = Math.floor(Math.random() * 360);
-
-      for (let i = 0; i < n; i++) {
-        const max = rotation + 15;
-        const min = rotation - 15;
-        const color = options.color.replace(
-          "hue",
-          Math.floor(Math.random() * (max - min) + min).toString()
-        );
-        lines.push(
-          spawnFoliumOfDescartes(canvas.width, canvas.height, posx, posy, color)
-        );
-      }
-    }
+    spawnRandomly(positions, lines, canvas.width, canvas.height);
+  }
+  // UPDATE LINES
+  for (const line of lines) {
+    line.update(ctx, time);
   }
 
-  //bg
+  // BACKGROUND CONFIG
   ctx.globalCompositeOperation = "source-over";
   ctx.save();
   ctx.shadowBlur = 0;
@@ -103,81 +83,6 @@ function loop(time: number) {
   ctx.globalCompositeOperation = "lighter";
 
   ctx.restore();
-
-  for (const line of lines) {
-    //FIXME
-    if (!line.died)
-      if (line.strategy) {
-        if ("dx" in line.strategy) {
-          if (line.direction === "left") {
-            line.x += line.dv;
-          } else if (line.direction === "up") {
-            line.y += line.dv;
-          } else if (line.direction === "right") {
-            line.x += line.dv;
-          } else if (line.direction === "down") {
-            line.y += line.dv;
-          }
-
-          ctx.fillStyle = ctx.shadowColor = line.color
-            .replace("saturation", "100")
-            .replace("lightness", smoothOscillation(time, 25, 12.5).toString());
-        } else if ("counter" in line.strategy) {
-          // sin
-          if (line.direction === "left") {
-            line.y =
-              line.initialY +
-              Math.sin(line.strategy.counter) * line.strategy.waveLength;
-            line.x += line.dv;
-          } else if (line.direction === "up") {
-            line.x =
-              line.initialX +
-              Math.sin(line.strategy.counter) * line.strategy.waveLength;
-            line.y += line.dv;
-          } else if (line.direction === "right") {
-            line.y =
-              line.initialY +
-              Math.sin(line.strategy.counter) * line.strategy.waveLength;
-            line.x += line.dv;
-          } else if (line.direction === "down") {
-            line.x =
-              line.initialX +
-              Math.sin(line.strategy.counter) * line.strategy.waveLength;
-            line.y += line.dv;
-          }
-          line.strategy.counter += line.strategy.increase;
-
-          ctx.fillStyle = ctx.shadowColor = line.color
-            .replace("saturation", "100")
-            .replace("lightness", smoothOscillation(time, 25, 12.5).toString());
-        } else if ("t" in line.strategy) {
-          line.strategy.inc = Math.abs(Math.cos(line.strategy.lifetime));
-          line.strategy.lifetime += 0.01;
-
-          line.x =
-            line.initialX +
-            (3 * line.strategy.dfx * line.strategy.a * line.strategy.t) /
-              (1 + Math.pow(line.strategy.t, 3));
-          line.y =
-            line.initialY +
-            (3 *
-              line.strategy.dfy *
-              line.strategy.a *
-              Math.pow(line.strategy.t, 2)) /
-              (1 + Math.pow(line.strategy.t, 3));
-          line.strategy.t += line.strategy.inc;
-
-          ctx.fillStyle = ctx.shadowColor = line.color
-            .replace("saturation", "100")
-            .replace("lightness", "50");
-        }
-      }
-
-    ctx.fillRect(line.x, line.y, 2, 2);
-    ctx.shadowBlur = Math.random() * options.shadowMultiplier;
-
-    die(line);
-  }
 }
 
 window.onfocus = function () {

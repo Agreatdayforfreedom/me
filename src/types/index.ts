@@ -1,6 +1,6 @@
 export type Direction = "up" | "down" | "right" | "left";
 export type Axis = "row" | "col";
-export type Line = {
+export interface Line {
   x: number;
   y: number;
   dv: number;
@@ -14,7 +14,7 @@ export type Line = {
   strategy?: StrategyType;
   direction?: Direction;
   type: Axis;
-};
+}
 
 export type Positions = {
   col: Array<{ x: number; y: number }>;
@@ -23,7 +23,7 @@ export type Positions = {
 
 export type StrategyType = Lineal | Sin | FoliumOfDescartes;
 
-export type Strategy = {
+export type StrategyLayout = {
   sin: Sin;
   lineal: Lineal;
   folium_of_descartes: FoliumOfDescartes;
