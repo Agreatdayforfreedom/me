@@ -1,6 +1,14 @@
 export type Direction = "up" | "down" | "right" | "left";
+
+export enum _Dir {
+  UP = 1,
+  DOWN = 2,
+  LEFT = 3,
+  RIGHT = 4,
+}
 export type Axis = "row" | "col";
 export interface Line {
+  id: string;
   x: number;
   y: number;
   dv: number;
@@ -11,7 +19,6 @@ export interface Line {
   color: string;
   initialX: number;
   initialY: number;
-  strategy?: StrategyType;
   direction?: Direction;
   type: Axis;
 }
@@ -19,34 +26,6 @@ export interface Line {
 export type Positions = {
   col: Array<{ x: number; y: number }>;
   row: Array<{ x: number; y: number }>;
-};
-
-export type StrategyType = Lineal | Sin | FoliumOfDescartes;
-
-export type StrategyLayout = {
-  sin: Sin;
-  lineal: Lineal;
-  folium_of_descartes: FoliumOfDescartes;
-};
-
-type FoliumOfDescartes = {
-  a: number;
-  t: number;
-  inc: number;
-  lifetime: number;
-  dfx: number;
-  dfy: number;
-};
-
-type Sin = {
-  increase: number;
-  counter: number;
-  waveLength: number;
-};
-
-export type Lineal = {
-  dx: number;
-  dy: number;
 };
 
 //----------

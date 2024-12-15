@@ -1,12 +1,10 @@
-import type { Direction, Line, Positions, StrategyLayout } from "../types";
+import type { Positions } from "../types";
 import { config } from "./configuration";
-import { type __Line } from "./lines/line";
 import { Folium } from "./lines/folium";
+import { type __Line } from "./lines/line";
 import { Straight } from "./lines/straight";
-import { Wave } from "./lines/wave";
 import { options as opt } from "./options";
-import { smoothOscillation } from "./utils";
-import { spawnRandomly, strategy_layout } from "./spawner";
+import { spawnRandomly } from "./spawner";
 
 let canvas = document.querySelector("canvas");
 let ctx = canvas?.getContext("2d");
@@ -50,6 +48,7 @@ function drawCanvas() {
 }
 drawCanvas();
 let ref = 0;
+let un = false;
 function loop(time: number) {
   ref = window.requestAnimationFrame(loop);
   if (!ctx || !canvas) return;
@@ -67,6 +66,7 @@ function loop(time: number) {
     spawnRandomly(positions, lines, canvas.width, canvas.height);
   }
   // UPDATE LINES
+
   for (const line of lines) {
     line.update(ctx, time);
   }
@@ -102,3 +102,56 @@ window.addEventListener("resize", () => {
     drawCanvas();
   }
 });
+
+function computeIntersection(ballA: __Line, ballB: __Line) {
+  // Calculate the relative velocities
+  const relativeVelocityX = ballA.dv - ballB.dv;
+  const relativeVelocityY = ballA.dv - ballB.dv;
+
+  // Calculate the relative position
+  const relativePositionX = ballB.x - ballA.x;
+  const relativePositionY = ballB.y - ballA.y;
+
+  // If the relative velocities are zero, the balls are not moving relative to each other
+  if (relativeVelocityX === 0 && relativeVelocityY === 0) {
+    return null;
+  }
+
+  // Calculate time to intersection (t_c) using parametric equations
+  const tCX =
+    relativeVelocityX !== 0 ? relativePositionX / relativeVelocityX : null;
+  const tCY =
+    relativeVelocityY !== 0 ? relativePositionY / relativeVelocityY : null;
+
+  // Ensure the times to collision are consistent and positive
+  if (tCX !== null && tCY !== null) {
+    if (Math.abs(tCX - tCY) > Number.EPSILON || tCX < 0) {
+      return null;
+    }
+    return {
+      x: ballA.x + ballA.dv * tCX,
+      y: ballA.y + ballA.dv * tCX,
+      time: tCX,
+    };
+  } else if (tCX !== null) {
+    if (tCX < 0) {
+      return null;
+    }
+    return {
+      x: ballA.x + ballA.dv * tCX,
+      y: ballA.y + ballA.dv * tCX,
+      time: tCX,
+    };
+  } else if (tCY !== null) {
+    if (tCY < 0) {
+      return null;
+    }
+    return {
+      x: ballA.x + ballA.dv * tCY,
+      y: ballA.y + ballA.dv * tCY,
+      time: tCY,
+    };
+  } else {
+    return null;
+  }
+}

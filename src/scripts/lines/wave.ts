@@ -1,13 +1,22 @@
-import type { Direction, StrategyType } from "../../types";
+import type { Direction } from "../../types";
 import { _Line } from "./line";
 import { options } from "../options";
 import { smoothOscillation } from "../utils";
 
-export class Wave extends _Line {
+interface _Wave {
+  counter: number;
+  increase: number;
+  waveLength: number;
+}
+
+export class Wave extends _Line implements _Wave {
+  counter: number;
+  increase: number;
+  waveLength: number;
+
   constructor(
     type: "col" | "row",
     direction: Direction,
-    strategy: StrategyType,
     initialX: number,
     initialY: number,
     w: number,
@@ -44,10 +53,6 @@ export class Wave extends _Line {
       Math.floor(Math.random() * 360).toString()
     );
 
-    if (strategy && "waveLength" in strategy) {
-      strategy.waveLength = Math.floor(Math.random() * (10 - 3) + 3);
-    }
-
     let dv = direction === "left" || direction === "up" ? 2 : -2;
     let start = Math.random() < 0.1;
     let died = false;
@@ -62,36 +67,31 @@ export class Wave extends _Line {
       color,
       initialX,
       initialY,
-      strategy,
       type,
       direction
     );
+
+    this.counter = 0;
+    this.increase = ((90 / 180) * Math.PI) / 9;
+    this.waveLength = Math.floor(Math.random() * (10 - 3) + 3);
   }
 
   update(ctx: CanvasRenderingContext2D, time: number): void {
-    if (!("counter" in this.strategy) || this.died) return;
+    if (!("counter" in this) || this.died) return;
     if (this.direction === "left") {
-      this.y =
-        this.initialY +
-        Math.sin(this.strategy.counter) * this.strategy.waveLength;
+      this.y = this.initialY + Math.sin(this.counter) * this.waveLength;
       this.x += this.dv;
     } else if (this.direction === "up") {
-      this.x =
-        this.initialX +
-        Math.sin(this.strategy.counter) * this.strategy.waveLength;
+      this.x = this.initialX + Math.sin(this.counter) * this.waveLength;
       this.y += this.dv;
     } else if (this.direction === "right") {
-      this.y =
-        this.initialY +
-        Math.sin(this.strategy.counter) * this.strategy.waveLength;
+      this.y = this.initialY + Math.sin(this.counter) * this.waveLength;
       this.x += this.dv;
     } else if (this.direction === "down") {
-      this.x =
-        this.initialX +
-        Math.sin(this.strategy.counter) * this.strategy.waveLength;
+      this.x = this.initialX + Math.sin(this.counter) * this.waveLength;
       this.y += this.dv;
     }
-    this.strategy.counter += this.strategy.increase;
+    this.counter += this.increase;
 
     ctx.fillStyle = ctx.shadowColor = this.color
       .replace("saturation", "100")
@@ -101,5 +101,12 @@ export class Wave extends _Line {
     ctx.shadowBlur = Math.random() * options.shadowMultiplier;
 
     this.kill();
+  }
+
+  kill() {
+    if (this.direction === "left") if (this.x > this.die) this.died = true;
+    if (this.direction === "right") if (this.x < this.die) this.died = true;
+    if (this.direction === "up") if (this.y > this.die) this.died = true;
+    if (this.direction === "down") if (this.y < this.die) this.died = true;
   }
 }
